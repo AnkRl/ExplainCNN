@@ -1,0 +1,167 @@
+#:import FadeTransition kivy.uix.screenmanager.FadeTransition
+#:import NoTransition kivy.uix.screenmanager.NoTransition
+#:import SwapTransition kivy.uix.screenmanager.SwapTransition
+
+<WelcomeScreen>:
+    on_enter: root.load_model()
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 50
+
+        Label:
+            text: "Welcome Screen"
+            color: app.font_color
+            font_size: "30sp"
+            
+            pos_hint: {'center_x': 0.5}
+            
+        MDFillRoundFlatButton:
+            text: 'Start'
+            on_press: 
+                root.manager.current = 'choice'
+                root.manager.transition = NoTransition()
+
+            font_size: app.button_size
+            size_hint: 0.8, 0.2
+            pos_hint: {'center_x': 0.5}
+
+
+<ChoiceScreen>:
+    on_enter: root.choose_random_image()
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 50
+        
+        Label:
+            text: "Wähle ein Zufallsbild oder nimm ein Foto auf"
+            color: app.font_color
+            font_size: app.label_size
+
+            pos_hint: {'center_x': 0.5}
+            size_hint: None, 0.5
+
+        BoxLayout:            
+            orientation: 'horizontal'
+            spacing: 20
+
+            Button:
+                on_press: 
+                    root.manager.current = 'mark'
+                    root.manager.transition = NoTransition()
+                background_normal: root.image_path                
+                
+                size_hint: 0.5,1
+
+                
+            MDFillRoundFlatIconButton:
+                text: "Foto aufnehmen"
+                icon: "camera"
+                font_size: app.button_size
+                
+                size_hint: 0.5,0.5
+                pos_hint: {"center_y":0.5}
+                #on_press: root.open_camera()
+                on_press: 
+                    root.manager.current = 'mark'
+                    root.manager.transition = NoTransition()
+
+<CameraPopup>:
+    title: "Take Picture"
+    size_hint: None, None
+    size: 400,400
+    
+    BoxLayout:
+        orientation: "horizontal"
+        Camera:
+            id: camera
+            #resolution: (640, 480)
+            play: True
+        Button:
+            text: 'Capture'
+            size_hint_y: None
+            height: '48dp'
+            on_press: 
+                root.capture()
+                
+
+<MarkScreen>:
+    on_enter: 
+        root.get_values()
+        root.call_network()
+
+    on_pre_leave: root.save_properties()
+    BoxLayout:
+        orientation: 'horizontal'
+        padding: 50
+        spacing: 20
+
+        BoxLayout:
+            orientation: "vertical"
+            MDTextField:
+                id: textbox
+                hint_text: "Was siehst du?"
+                
+                size_hint: 1,0.2
+            Label:
+                text: "Markiere was du siehst"
+                color: app.font_color
+                font_size: app.label_size
+
+                size_hint: 1,0.1
+                halign: "left"
+                text_size: self.size
+
+            DrawingWidget:
+                id: drawing
+                canvas:
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                        source: root.image_path
+                        
+        MDFillRoundFlatIconButton:
+            text: "Vergleiche mit KI"
+            icon: "robot-outline"
+            font_size: app.button_size
+
+            on_press: 
+                root.manager.current = "comparison"
+                root.manager.transition = NoTransition()
+                #root.manager.transition = FallOutTransition()
+            valign: "center"
+            size_hint: 0.8, 0.2
+            pos_hint: {'center_y': 0.5}
+
+<ComparisonScreen>:
+    on_enter: root.get_values()
+    BoxLayout:
+        orientation: "vertical"
+        padding: 50
+        spacing: 20
+        BoxLayout:
+            orientation: 'horizontal'
+            BoxLayout:
+                orientation: "vertical"
+                id: user
+
+            BoxLayout:
+                orientation: "vertical"
+                id: ki
+
+        MDFillRoundFlatIconButton:
+            icon: "refresh"
+            text:"Neues Bild"
+            font_size: app.button_size
+            on_press: 
+                root.manager.current = "choice"
+                root.manager.transition = NoTransition()
+        
+            size_hint: 0.8, 0.2
+            pos_hint: {'center_x': 0.5}
+
+        # MDFloatingActionButton:
+        #     text: "Restart"
+        #     on_press: root.manager.current = "welcome"
+
+        #     size_hint: 0.3, 0.2
+        #     pos_hint: {'center_x': 0.8}

@@ -1,0 +1,48 @@
+<StartScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: 50
+
+        MDLabel:
+            text: "CNN Explainer"
+            halign: "center"
+
+        MDRoundFlatButton:
+            text: 'Start'
+            on_press: root.manager.current = 'main'
+
+            font_size: 20
+            size_hint: 0.8, 0.2
+            pos_hint: {'center_x': 0.5}
+
+<MainScreen>:
+    # MDFloatLayout:    
+    #     UserWidget:
+    #         size_hint: 0.45, 0.7
+    #         pos_hint: {'top': 1}
+
+    #     KIWidget:
+    #         size_hint: 0.45, 0.7
+    #         pos_hint:{"center_x":0.5,"center_y":0.9}
+                
+    #     MDRoundFlatButton:
+    #         text: 'Vergleichen'
+    #         on_press: root.compare()
+
+    #         font_size: 20
+    #         size_hint: 0.6, 0.1
+
+    MDFloatingActionButtonSpeedDial:
+        id: speed_dial
+        data: root.buttons
+        root_button_anim: True
+
+<UserWidget@MDWidget>:
+    MDLabel:
+        text:"User"
+        halign: "center"
+
+<KIWidget@MDWidget>:
+    MDLabel:
+        text:"KI"
+        halign: "center"
