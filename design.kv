@@ -4,6 +4,7 @@
 
 <WelcomeScreen>:
     on_enter: root.load_model()
+
     BoxLayout:
         orientation: 'vertical'
         padding: 50
@@ -27,7 +28,8 @@
 
 
 <ChoiceScreen>:
-    on_enter: root.choose_random_image()
+    on_enter: root.get_properties()
+    on_pre_leave: root.save_properties()
     BoxLayout:
         orientation: 'vertical'
         padding: 50
@@ -85,10 +87,7 @@
                 
 
 <MarkScreen>:
-    on_enter: 
-        root.get_values()
-        root.call_network()
-
+    on_pre_enter: root.get_properties()
     on_pre_leave: root.save_properties()
     BoxLayout:
         orientation: 'horizontal'

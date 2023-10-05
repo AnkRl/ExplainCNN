@@ -8,13 +8,7 @@ from kivy.uix.image import Image
 from kivy.uix.label import Label
 from kivy.lang import Builder
 
-from torchvision.io import read_image
-from torchvision.models.efficientnet import efficientnet_b0, EfficientNet_B0_Weights
-from captum.attr import IntegratedGradients, Saliency, DeepLift, Deconvolution, DeepLiftShap
-from captum.attr import GradientShap
-from captum.attr import Occlusion
-from captum.attr import NoiseTunnel
-from captum.attr import visualization as viz
+from effficient_net import EfficientNet
 
 import os
 import random
@@ -24,12 +18,14 @@ Builder.load_file("design.kv")
 
 # Welcoming screen, for starting the game
 class WelcomeScreen(Screen):
-    def load_model(self):
-        weights = EfficientNet_B0_Weights.DEFAULT
-        model = efficientnet_b0(weights)
-        model.eval()        
-        self.KI = model
-        self.preprocess = weights.transforms()
+    def load_model(self):        
+        self.KI = EfficientNet()        
+
+    # Some clean up
+    if os.path.exists("user_image.png"): os.remove("user_image.png")
+    if os.path.exists("ki_image.png"): os.remove("ki_image.png")
+    if os.path.exists("original_image.png"): os.remove("original_image.png")
+
 
 ###
 
@@ -37,8 +33,12 @@ class WelcomeScreen(Screen):
 class ChoiceScreen(Screen):
     image_path = StringProperty()
 
-    def choose_random_image(self):
+    def get_properties(self):
+        self.KI = self.manager.get_screen('welcome').KI
         self.image_path= "images/" + random.choice([x for x in os.listdir("images")])
+
+    def save_properties(self):
+        self.KI.pass_image_to_net(self.image_path)
     
     def open_camera(self):
         popup = CameraPopup()
@@ -56,42 +56,14 @@ class CameraPopup(Popup):
 
 # Classify the image and mark the part where you recognized it
 class MarkScreen(Screen):
-    image_path = StringProperty()
     text_user = StringProperty()
-    image_user = StringProperty("output.png")
-    text_ki = StringProperty()
-    image_ki = StringProperty("output_ki.png")
+    image_user = StringProperty("user_image.png")
+    image_path = StringProperty()
     
     # on_enter: we wanna have the image path, declared in choice screen
-    def get_values(self):
+    def get_properties(self):
+        self.KI = self.manager.get_screen('choice').KI
         self.image_path = self.manager.get_screen('choice').image_path
-        self.KI = self.manager.get_screen('welcome').KI
-        self.preprocess = self.manager.get_screen('welcome').preprocess
-    
-    def call_network(self):
-        img = read_image(self.image_path)
-        img = self.preprocess(img).unsqueeze(0)
-        prediction = self.KI(img).squeeze(0).softmax(0)
-        class_id = prediction.argmax().item()
-        with open('network/categories.txt','r', encoding='utf-8') as f:
-            categories = f.read().split(',')
-        print(len(categories))
-        self.text_ki = categories[class_id]
-
-        self.explain(img, class_id)
-    
-    def explain(self, img, id):
-        saliency = Saliency(self.KI)
-        attributions = saliency.attribute(img, target=id)
-        fig,ax = viz.visualize_image_attr(np.transpose(attributions.squeeze().cpu().detach().numpy(), (1,2,0)),
-                             np.transpose(img.squeeze().cpu().detach().numpy(), (1,2,0)),
-                             method='blended_heat_map',
-                             show_colorbar=False,
-                             sign='absolute_value',
-                             alpha_overlay=0.5,
-                             outlier_perc=1,
-                             use_pyplot=False)
-        fig.savefig('output_ki.png')
 
     #TODO: Get user input for text value
     def get_text(self):
@@ -101,14 +73,13 @@ class MarkScreen(Screen):
     def save_properties(self):
         self.get_text()
         self.image_user = self.ids.drawing.save()
-        self.image_ki = "output_ki.png"
         self.ids.drawing.clean()
     
 
 class DrawingWidget(Widget):
     def save(self):
-        self.export_to_png("output.png")
-        return "output.png"
+        self.export_to_png("user_image.png")
+        return "user_image.png"
 
     def clean(self):
         rectangle = self.canvas.children[:2]
@@ -151,10 +122,11 @@ class ComparisonScreen(Screen):
     
     # on_enter: we wanna have the image path, declared in choice screen
     def get_values(self):
+        self.KI = self.manager.get_screen('mark').KI
         self.text_user = self.manager.get_screen('mark').text_user
-        self.text_ki = self.manager.get_screen('mark').text_ki
+        self.text_ki = self.KI.prediction
         self.image_user = self.manager.get_screen('mark').image_user
-        self.image_ki = self.manager.get_screen('mark').image_ki
+        self.image_ki = self.KI.ki_image_path
 
         # Draw Image and set Title
         self.img_user = Image(source=self.image_user, nocache=True)
