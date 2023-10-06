@@ -3,7 +3,7 @@ from torchvision.io import read_image
 from torchvision.models.efficientnet import efficientnet_b0, EfficientNet_B0_Weights
 from torchvision.transforms import Normalize
 
-from captum.attr import IntegratedGradients, Saliency, DeepLift, Deconvolution, DeepLiftShap
+from captum.attr import Saliency
 from captum.attr import visualization as viz
 
 import numpy as np
@@ -19,9 +19,10 @@ class EfficientNet():
         model.eval()
         self.model = model        
         self.preprocess = weights.transforms()
-        with open('network/categories.txt','r', encoding='utf-8') as f:
-            self.categories = f.read().split(',')
-        
+        with open('src/network/translate.txt','r', encoding='utf-8') as f:
+            categories = f.read().split(',')
+        self.categories = categories
+        #print(self.categories)
         self.saliency = Saliency(self.model)
     
     #Trigger function, Image is selected

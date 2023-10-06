@@ -1,20 +1,22 @@
+import logging
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
 from kivy.uix.widget import Widget
 from kivy.uix.popup import Popup
-from kivy.graphics import Rectangle, Color, Line
-from kivy.properties import StringProperty, ObjectProperty
+from kivy.graphics import Color, Line
+from kivy.properties import StringProperty
 from kivy.uix.image import Image
 from kivy.uix.label import Label
 from kivy.lang import Builder
 
-from effficient_net import EfficientNet
+from network.efficient_net import EfficientNet
 
 import os
 import random
 import numpy as np
 
 Builder.load_file("design.kv") 
+logging.getLogger('matplotlib.font_manager').disabled = True
 
 # Welcoming screen, for starting the game
 class WelcomeScreen(Screen):
