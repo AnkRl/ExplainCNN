@@ -6,10 +6,18 @@ from torchvision.transforms import Normalize
 from captum.attr import Saliency
 from captum.attr import visualization as viz
 
+from .translate import categories
+
 import numpy as np
 from PIL import Image
+import sys
+import os
 import io
 
+def resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
 
 class EfficientNet():
     def __init__(self) -> None:
@@ -19,9 +27,9 @@ class EfficientNet():
         model.eval()
         self.model = model        
         self.preprocess = weights.transforms()
-        with open('src/network/translate.txt','r', encoding='utf-8') as f:
-            categories = f.read().split(',')
-        self.categories = categories
+        # with open(resource_path('/network/translate.txt'),'r', encoding='utf-8') as f:
+        #     categories = f.read().split(',')
+        self.categories = categories()
         #print(self.categories)
         self.saliency = Saliency(self.model)
     
@@ -42,7 +50,7 @@ class EfficientNet():
 
 
     def _set_attribution_image(self, preprocessed_image):
-        file = "ki_image.png"
+        file = resource_path("ki_image.png")
         fig, ax = viz.visualize_image_attr(self.attribution,
                              np.transpose(preprocessed_image.squeeze().cpu().detach().numpy(), (1,2,0)),
                              method='heat_map',
@@ -64,7 +72,7 @@ class EfficientNet():
 
     def _set_original_image(self, preprocessed_image):
         scaled_image = self._scale_image(preprocessed_image)
-        file = "original_image.png"
+        file = resource_path("original_image.png")
         fig, ax = viz.visualize_image_attr(self.attribution,
                                     np.transpose(scaled_image.squeeze().cpu().detach().numpy(), (1,2,0)),
                                     method='original_image',

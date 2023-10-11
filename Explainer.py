@@ -14,8 +14,14 @@ from network.efficient_net import EfficientNet
 import os
 import random
 import numpy as np
+import sys
 
-Builder.load_file("design.kv") 
+def resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
+
+Builder.load_file(resource_path("design.kv")) 
 logging.getLogger('matplotlib.font_manager').disabled = True
 
 # Welcoming screen, for starting the game
@@ -24,9 +30,9 @@ class WelcomeScreen(Screen):
         self.KI = EfficientNet()        
 
     # Some clean up
-    if os.path.exists("user_image.png"): os.remove("user_image.png")
-    if os.path.exists("ki_image.png"): os.remove("ki_image.png")
-    if os.path.exists("original_image.png"): os.remove("original_image.png")
+    if os.path.exists(resource_path("user_image.png")): os.remove(resource_path("user_image.png"))
+    if os.path.exists(resource_path("ki_image.png")): os.remove(resource_path("ki_image.png"))
+    if os.path.exists(resource_path("original_image.png")): os.remove(resource_path("original_image.png"))
 
 
 ###
@@ -37,7 +43,7 @@ class ChoiceScreen(Screen):
 
     def get_properties(self):
         self.KI = self.manager.get_screen('welcome').KI
-        self.image_path= "images/" + random.choice([x for x in os.listdir("images")])
+        self.image_path= resource_path("images/" + random.choice([x for x in os.listdir(resource_path("images"))]))
 
     def save_properties(self):
         self.KI.pass_image_to_net(self.image_path)
@@ -45,21 +51,21 @@ class ChoiceScreen(Screen):
     def open_camera(self):
         popup = CameraPopup()
         popup.open()
-        self.image_path = "picture.png"
+        self.image_path = resource_path("picture.png")
 
 class CameraPopup(Popup):
     def capture(self):
         camera = self.ids['camera']
-        if os.path.exists("picture.png"):
-            os.remove("picture.png")
-        camera.export_to_png("picture.png")
+        if os.path.exists(resource_path(("picture.png"))):
+            os.remove(resource_path("picture.png"))
+        camera.export_to_png(resource_path("picture.png"))
         
 ###
 
 # Classify the image and mark the part where you recognized it
 class MarkScreen(Screen):
     text_user = StringProperty()
-    image_user = StringProperty("user_image.png")
+    image_user = StringProperty(resource_path("user_image.png"))
     image_path = StringProperty()
     
     # on_enter: we wanna have the image path, declared in choice screen
@@ -80,8 +86,8 @@ class MarkScreen(Screen):
 
 class DrawingWidget(Widget):
     def save(self):
-        self.export_to_png("user_image.png")
-        return "user_image.png"
+        self.export_to_png(resource_path("user_image.png"))
+        return resource_path("user_image.png")
 
     def clean(self):
         rectangle = self.canvas.children[:2]
