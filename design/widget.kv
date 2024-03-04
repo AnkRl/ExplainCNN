@@ -13,6 +13,7 @@
 
         MDRoundFlatButton:
             text: "Vergleiche mit KI"
+            pos_hint: {'center_x': .5, 'center_y': .5}
             on_press: root.hit_compare = True
 
 <KIImageWidget>    
@@ -23,6 +24,17 @@
 
         MDLabel:
             text: root.prediction
+            size_hint: 1,0.2
+
+<UserImageWidget>
+    MDBoxLayout:
+        orientation: "vertical"
+        size: root.size
+        id: userImage 
+
+        MDLabel:
+            text: root.user_prediction
+            size_hint: 1,0.2
 
 <UserAnnotationsWidget>:
     MDBoxLayout:
@@ -34,14 +46,14 @@
             text: "Was siehst du?"
             halign: "left"
             role: "large"
+            size_hint: 1,0.1
 
         MDTextField:
+            id: userInput
             hint_text: "Tippe ein was du siehst"
+            size_hint: 1,0.2
 
         MDLabel:
             text: "Markiere die Bildbereiche"
             halign: "left"
-
-
-
-    
+            size_hint: 1,0.1

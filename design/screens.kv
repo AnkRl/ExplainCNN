@@ -38,6 +38,7 @@
         id: box
         adaptive_size: True
         padding: "5dp"
+        spacing: "15px"
         pos_hint: {"center_x": .5, "center_y": .5}
 
     MDFlatButton:
@@ -52,12 +53,14 @@
 
 <CompareScreen>:
     MDBoxLayout:
-        orientation: "vertical"
+        orientation: "vertical"        
         
         MDBoxLayout:
             id: compare_box
             orientation: "horizontal"
             size: root.size
+            padding: "5dp"
+            spacing: "10px"
 
         MDIconButton:
             icon: "reload"

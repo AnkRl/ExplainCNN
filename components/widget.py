@@ -1,33 +1,25 @@
-from kivy.uix.widget import Widget
 from kivy.graphics import Color, Line
 from kivy.uix.image import Image, CoreImage
 from kivy.properties import BooleanProperty
 from  kivy.uix.boxlayout import BoxLayout
 
 from io import BytesIO
+from utils import img2kivy
 
 class KIOverlayWidget(BoxLayout):
     hit_compare = BooleanProperty(False)
 
+class UserImageWidget(BoxLayout):
+    def __init__(self, user_input, user_image, **kwargs):
+        self.user_prediction = user_input
+        super().__init__(**kwargs)
+        self.ids.userImage.add_widget(img2kivy(image=user_image))
 
 class KIImageWidget(BoxLayout):
     def __init__(self, image=None, prediction="", **kwargs):
         self.prediction = prediction
         super().__init__(**kwargs)        
-        self.ids.kiImage.add_widget(self._img2kivy(image=image))
-    
-    def _img2kivy(self, image):
-        image_bytes = BytesIO()
-        image.save(image_bytes, format="png")
-        image_bytes.seek(0)
-
-        img = CoreImage(image_bytes, ext="png").texture
-
-        new_img = Image()
-        new_img.texture = img
-        image_bytes.close()
-        
-        return new_img
+        self.ids.kiImage.add_widget(img2kivy(image=image))
 
 class DrawingWidget(Image):
     def __init__(self, image=None, **kwargs):

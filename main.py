@@ -15,9 +15,6 @@ kv_path = resource_path("./design/")
 for file in listdir(kv_path): 
     Builder.load_file(kv_path+file) 
 
-#Builder.load_file(resource_path("design_2.kv")) 
-
-
 # App Class
 class ExplainerApp(MDApp):
     def build(self):

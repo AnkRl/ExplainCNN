@@ -1,11 +1,12 @@
 from kivymd.uix.screen import Screen as MDScreen
-from kivy.uix.image import Image, CoreImage
 from kivymd.theming import ThemableBehavior
 
-from .cards import ModeOptionCard, KIOverlayCard
+from .cards import ModeOptionCard
 from .popup import CameraPopup, GalleryPopup
-from .widget import KIOverlayWidget, UserAnnotationsWidget, KIImageWidget
+from .widget import KIOverlayWidget, UserAnnotationsWidget, KIImageWidget, UserImageWidget
 
+from os import remove
+from PIL import Image
 
 
 class DefaultScreen(MDScreen, ThemableBehavior):
@@ -111,8 +112,18 @@ class CompareScreen(DefaultScreen):
         self.compare_box.add_widget(self.ki_overlay)
         
     def trigger_show_ki_image(self, value,_):
-        # Remove Overlay
+        # Remove Overlay 
         self.compare_box.remove_widget(self.ki_overlay)
+        
+        # Get user annotations and remove user annotation widget
+        user_input = self.user_annotations.ids.userInput.text
+        # save annotations
+        self.user_annotations.ids.userAnnotations.children[0].export_to_png("temp.png", fmt="png")
+        user_image = Image.open("temp.png")
+        self.compare_box.remove_widget(self.user_annotations)
+
+        # Add user and ki image
+        self.compare_box.add_widget(UserImageWidget(user_input=user_input, user_image=user_image))
         self.compare_box.add_widget(self.ki_image)
 
     def set_properties(self):

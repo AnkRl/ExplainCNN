@@ -1,6 +1,7 @@
 from kivy.properties import StringProperty
-from kivymd.uix.card import MDCard
 from kivy.properties import BooleanProperty
+
+from kivymd.uix.card import MDCard
 
 class ModeOptionCard(MDCard):
     ''' Class that handles the mode options (random, gallery, camera) '''

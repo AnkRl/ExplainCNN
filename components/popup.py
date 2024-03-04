@@ -1,6 +1,6 @@
 from kivy.uix.popup import Popup
-from .cards import GalleryImageCard
 
+from .cards import GalleryImageCard
 
 class GalleryPopup(Popup):
     '''
