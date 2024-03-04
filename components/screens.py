@@ -4,7 +4,7 @@ from kivymd.theming import ThemableBehavior
 
 from .cards import ModeOptionCard, KIOverlayCard
 from .popup import CameraPopup, GalleryPopup
-from .widget import DrawingWidget, KIOverlayWidget, UserAnnotationsWidget
+from .widget import KIOverlayWidget, UserAnnotationsWidget, KIImageWidget
 
 
 
@@ -95,47 +95,35 @@ class CompareScreen(DefaultScreen):
     '''
     def __init__(self, **kw):
         super().__init__(**kw)
+        # Get Boxlayout
+        self.compare_box = self.ids.compare_box
+
+        # Set three main children (added dynamically and therefore not in .kv)
+        self.ki_overlay = None
+        self.user_annotations = None
+        self.ki_image = None
     
     def get_properties(self):
-        # Adding the drawing area
-        self.ids.compare_box.add_widget(
-            DrawingWidget(self.image_manager.original_image),
-        )
-        # Adding ki overlay
-        # Bind event to hit_compare somehow... 
-        ki_overlay = KIOverlayCard()
-        ki_overlay.bind(hit_compare=self.trigger_show_ki_image)
-        self.ids.compare_box.add_widget(ki_overlay)
+        # If this function is triggered, images are chosen and can be set
+        self.set_images()
+        
+        self.compare_box.add_widget(self.user_annotations)
+        self.compare_box.add_widget(self.ki_overlay)
         
     def trigger_show_ki_image(self, value,_):
-        # TODO less hacky here
-        self.ids.compare_box.remove_widget(self.ids.compare_box.children[0])
-        self.show_ki_image()
-            
+        # Remove Overlay
+        self.compare_box.remove_widget(self.ki_overlay)
+        self.compare_box.add_widget(self.ki_image)
 
     def set_properties(self):
         #Clean up
         images = [i for i in self.ids.compare_box.children]
         for i in images:
             self.ids.compare_box.remove_widget(i)
-
-    def show_ki_image(self):
-        self.ids.compare_box.add_widget(
-            self._img2kivy(self.image_manager.ki_image) 
-        )
-
-    def _img2kivy(self, image):
-        import io
-        image_bytes = io.BytesIO()
-        image.save(image_bytes, format="png")
-        image_bytes.seek(0)
-
-        img = CoreImage(image_bytes, ext="png").texture
-
-        new_img = Image()
-        new_img.texture = img
-        image_bytes.close()
-        
-        return new_img
     
-
+    def set_images(self):
+        self.ki_overlay = KIOverlayWidget()
+        self.ki_overlay.bind(hit_compare=self.trigger_show_ki_image)
+        self.user_annotations = UserAnnotationsWidget(self.image_manager.original_image)
+        self.ki_image = KIImageWidget(self.image_manager.ki_image, self.image_manager.prediction) 
+        

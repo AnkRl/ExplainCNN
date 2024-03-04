@@ -2,16 +2,38 @@ from kivy.uix.widget import Widget
 from kivy.graphics import Color, Line
 from kivy.uix.image import Image, CoreImage
 from kivy.properties import BooleanProperty
-import io
+from  kivy.uix.boxlayout import BoxLayout
 
-class KIOverlayWidget(Widget):
+from io import BytesIO
+
+class KIOverlayWidget(BoxLayout):
     hit_compare = BooleanProperty(False)
+
+
+class KIImageWidget(BoxLayout):
+    def __init__(self, image=None, prediction="", **kwargs):
+        self.prediction = prediction
+        super().__init__(**kwargs)        
+        self.ids.kiImage.add_widget(self._img2kivy(image=image))
+    
+    def _img2kivy(self, image):
+        image_bytes = BytesIO()
+        image.save(image_bytes, format="png")
+        image_bytes.seek(0)
+
+        img = CoreImage(image_bytes, ext="png").texture
+
+        new_img = Image()
+        new_img.texture = img
+        image_bytes.close()
+        
+        return new_img
 
 class DrawingWidget(Image):
     def __init__(self, image=None, **kwargs):
         super().__init__(**kwargs)
         
-        image_bytes = io.BytesIO()
+        image_bytes = BytesIO()
         image.save(image_bytes, format="png")
         image_bytes.seek(0)
 
@@ -19,6 +41,7 @@ class DrawingWidget(Image):
         self.texture = img
 
         image_bytes.close()
+        self.line = Line()
 
     def out_of_boundary(self, touch):
         size_x, size_y = self.width, self.height
@@ -47,5 +70,7 @@ class DrawingWidget(Image):
         else:
             self.line.points = self.line.points + [touch.pos[0], touch.pos[1]]
 
-class UserAnnotationsWidget(Widget):
-    pass
+class UserAnnotationsWidget(BoxLayout):
+    def __init__(self, image=None, **kwargs):
+        super().__init__(**kwargs)
+        self.ids.userAnnotations.add_widget(DrawingWidget(image))

@@ -1,20 +1,35 @@
 <KIOverlayWidget>:
-    id: overlay
-    
-    MDSpinner:
-        size_hint: None, None
-        size: dp(46), dp(46)
-        pos_hint: {'center_x': .5, 'center_y': .5}
-        active: True
+    id: kiOverlay
 
-    MDRoundFlatButton:
-        text: "Vergleiche mit KI"
-        on_press: root.hit_compare = True
+    MDBoxLayout:
+        orientation: "vertical"
+        size: root.size
+
+        MDSpinner:
+            size_hint: None, None
+            size: dp(46), dp(46)
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            active: True
+
+        MDRoundFlatButton:
+            text: "Vergleiche mit KI"
+            on_press: root.hit_compare = True
+
+<KIImageWidget>    
+    MDBoxLayout:
+        orientation: "vertical"
+        size: root.size
+        id: kiImage 
+
+        MDLabel:
+            text: root.prediction
 
 <UserAnnotationsWidget>:
     MDBoxLayout:
         orientation: "vertical"
-
+        id: userAnnotations
+        size: root.size
+        
         MDLabel:
             text: "Was siehst du?"
             halign: "left"
@@ -27,6 +42,6 @@
             text: "Markiere die Bildbereiche"
             halign: "left"
 
-        DrawingWidget:
+
 
     

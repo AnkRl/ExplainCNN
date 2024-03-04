@@ -51,24 +51,23 @@
 
 
 <CompareScreen>:
-
-    
     MDBoxLayout:
-        id: compare_box
-        padding: "5dp"
-        pos_hint: {"center_x": .5, "center_y": .5}
-        orientation: "horizontal"
-
+        orientation: "vertical"
         
-    
-    MDIconButton:
-        icon: "reload"
-        pos_hint: {"center_x": .5}
+        MDBoxLayout:
+            id: compare_box
+            orientation: "horizontal"
+            size: root.size
 
-    MDFlatButton:
-        text: "Beenden"
-        theme_text_color: "Custom"
-        pos_hint: {"center_x": .5}
-        text_color: "cyan"
+        MDIconButton:
+            icon: "reload"
+            pos_hint: {"center_x": .5}
+            on_press: root.manager.current = "mode"
 
-        on_press: root.manager.current = "start"
+        MDFlatButton:
+            text: "Beenden"
+            theme_text_color: "Custom"
+            pos_hint: {"center_x": .5}
+            text_color: "cyan"
+
+            on_press: root.manager.current = "start"
