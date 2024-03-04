@@ -1,0 +1,58 @@
+<ModeOptionCard>
+    padding: "5dp"
+    size_hint: None, None
+    size: "240dp", "240dp"
+    style:"elevated"
+    ripple_behavior: True
+    focus_behavior: True
+
+    on_press: root.parent.parent.on_click_option(root.text)
+
+    MDBoxLayout:
+        orientation: 'vertical'        
+
+        MDIconButton:
+            icon: root.icon
+            theme_icon_color: "Custom"
+            icon_color: app.theme_cls.primary_color
+            icon_size: "64sp"
+            #padding_top: "10dp"
+            pos_hint: {"center_x": .5}
+
+        MDLabel:
+            text: root.text
+            halign: "center"
+            color: "grey"
+            bold: True
+            #padding_bottom: "10dp"
+
+
+<GalleryImageCard>
+    radius: [0, ]
+    size_hint: None, None
+    size: "100px", "64px"
+    ripple_behavior: True
+    focus_behavior: True
+    on_press: 
+        root.parent.parent.parent.parent.parent.on_click_image(root.image_path)
+
+    FitImage:
+        source: root.image_path
+
+
+<KIOverlayCard>
+    id: overlay
+    size_hint: None, None
+    size: "240dp", "240dp"
+    ripple_behavior: True
+    focus_behavior: True
+    
+    MDSpinner:
+        size_hint: None, None
+        size: dp(46), dp(46)
+        #pos_hint: {'center_x': .5, 'center_y': .5}
+        active: True
+
+    MDRoundFlatButton:
+        text: "Vergleiche mit KI"
+        on_press: root.hit_compare = True

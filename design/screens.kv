@@ -1,0 +1,74 @@
+<DefaultScreen>:
+    on_pre_enter: root.get_properties()
+    on_pre_leave: root.set_properties()
+
+    theme_md_bg_color: "Custom"
+    md_bg_color: app.theme_cls.backgroundColor  
+
+<StartScreen>:
+    MDCard:
+        padding: "20dp"
+        size_hint: None, None
+        size: "500dp", "300dp"
+        pos_hint: {"center_x": .5, "center_y": .5}
+        
+        style: "elevated"
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            MDLabel:
+                text: "Ich sehe was, das du nicht siehst..."
+                halign: "center"
+                color: "black"
+                bold: True
+            MDLabel:
+                text: "Der Explainer hilf uns zu verstehen was KI sieht und warum sie manchmal auch daneben liegt."
+                halign: "center"
+                color: "grey"
+
+            MDRectangleFlatButton:
+                text: "Los gehts!"
+                pos_hint: {"center_x": .5}
+                padding_bottom: "10dp"
+                on_press: root.manager.current = "mode"
+
+
+<ModeScreen>:
+    MDBoxLayout:
+        id: box
+        adaptive_size: True
+        padding: "5dp"
+        pos_hint: {"center_x": .5, "center_y": .5}
+
+    MDFlatButton:
+        text: "Beenden"
+        theme_text_color: "Custom"
+        pos_hint: {"center_x": .5}
+        text_color: "cyan"
+
+        on_press: root.manager.current = "start"
+
+
+
+<CompareScreen>:
+
+    
+    MDBoxLayout:
+        id: compare_box
+        padding: "5dp"
+        pos_hint: {"center_x": .5, "center_y": .5}
+        orientation: "horizontal"
+
+        
+    
+    MDIconButton:
+        icon: "reload"
+        pos_hint: {"center_x": .5}
+
+    MDFlatButton:
+        text: "Beenden"
+        theme_text_color: "Custom"
+        pos_hint: {"center_x": .5}
+        text_color: "cyan"
+
+        on_press: root.manager.current = "start"

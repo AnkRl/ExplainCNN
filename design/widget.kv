@@ -1,0 +1,32 @@
+<KIOverlayWidget>:
+    id: overlay
+    
+    MDSpinner:
+        size_hint: None, None
+        size: dp(46), dp(46)
+        pos_hint: {'center_x': .5, 'center_y': .5}
+        active: True
+
+    MDRoundFlatButton:
+        text: "Vergleiche mit KI"
+        on_press: root.hit_compare = True
+
+<UserAnnotationsWidget>:
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDLabel:
+            text: "Was siehst du?"
+            halign: "left"
+            role: "large"
+
+        MDTextField:
+            hint_text: "Tippe ein was du siehst"
+
+        MDLabel:
+            text: "Markiere die Bildbereiche"
+            halign: "left"
+
+        DrawingWidget:
+
+    
