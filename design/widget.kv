@@ -4,17 +4,19 @@
     MDBoxLayout:
         orientation: "vertical"
         size: root.size
+        pos_hint: {'center_x': .5, 'center_y': 0.9}
+        spacing: "30px"
 
         MDSpinner:
             size_hint: None, None
-            size: dp(46), dp(46)
-            pos_hint: {'center_x': .5, 'center_y': .5}
+            size: dp(50), dp(50)
             active: True
+            pos_hint: {'center_x': .5, 'center_y': 0.5}
 
         MDRoundFlatButton:
             text: "Vergleiche mit KI"
-            pos_hint: {'center_x': .5, 'center_y': .5}
             on_press: root.hit_compare = True
+            pos_hint: {'center_x': .5, 'center_y': 0.5}
 
 <KIImageWidget>    
     MDBoxLayout:

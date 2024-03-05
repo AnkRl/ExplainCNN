@@ -1,7 +1,7 @@
 from kivy.graphics import Color, Line
 from kivy.uix.image import Image, CoreImage
 from kivy.properties import BooleanProperty
-from  kivy.uix.boxlayout import BoxLayout
+from kivy.uix.boxlayout import BoxLayout
 
 from io import BytesIO
 from utils import img2kivy
