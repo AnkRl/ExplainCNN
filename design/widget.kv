@@ -24,10 +24,16 @@
         orientation: "vertical"
         size: root.size
         id: kiImage 
-
-        MDLabel:
-            text: root.prediction
+        
+        MDRectangleFlatIconButton:
             size_hint: 1,0.2
+            icon: "robot-confused"
+            pos_hint: {'center_x': .5, 'center_y': 0.5}
+            text: '"' + root.prediction + '"'
+            line_color: "white"
+            disabled: True
+            font_size: "25sp"
+                
 
 <UserImageWidget>
     MDBoxLayout:
@@ -35,9 +41,14 @@
         size: root.size
         id: userImage 
 
-        MDLabel:
-            text: root.user_prediction
+        MDRectangleFlatIconButton:
             size_hint: 1,0.2
+            icon: "account-eye"
+            pos_hint: {'center_x': .5, 'center_y': 0.5}
+            text: '"' + root.user_prediction + '"'
+            line_color: "white"
+            disabled: True
+            font_size: "25sp"
 
 <UserAnnotationsWidget>:
     MDBoxLayout:
