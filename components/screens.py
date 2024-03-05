@@ -122,6 +122,8 @@ class CompareScreen(DefaultScreen):
         # save annotations
         self.user_annotations.ids.userAnnotations.children[0].export_to_png("temp.png", fmt="png")
         user_image = Image.open("temp.png")
+        user_image = user_image.crop((14,0,376,360))
+        user_image = user_image.resize((462,462))
         self.compare_box.remove_widget(self.user_annotations)
 
         # Add user and ki image

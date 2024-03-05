@@ -9,9 +9,11 @@ def resource_path(relative_path):
         return join(sys._MEIPASS, relative_path)
     return join(abspath("."), relative_path)
 
+
 '''Helper to make kivy images out of images'''
 def img2kivy(image, size_hint = (1,1)):
-        image_bytes = BytesIO()
+        image = image.crop((1,1,462,462))
+        image_bytes = BytesIO()    
         image.save(image_bytes, format="png")
         image_bytes.seek(0)
 
