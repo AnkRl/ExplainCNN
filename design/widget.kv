@@ -10,13 +10,14 @@
         MDSpinner:
             size_hint: None, None
             size: dp(50), dp(50)
-            active: True
+            active: root.network_status
             pos_hint: {'center_x': .5, 'center_y': 0.5}
 
         MDRoundFlatButton:
             text: "Vergleiche mit KI"
             on_press: root.hit_compare = True
             pos_hint: {'center_x': .5, 'center_y': 0.5}
+            disabled: root.network_status
 
 <KIImageWidget>    
     MDBoxLayout:

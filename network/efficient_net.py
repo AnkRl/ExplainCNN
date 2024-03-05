@@ -29,34 +29,38 @@ class EfficientNet():
         self.categories = categories()
         self.categories_eng = weights.meta["categories"]
     
-    def pass_image_to_net(self, image_path:str):
+    def pass_image_to_net(self):
         '''Triggers the image classification process
         :return: PIL Image instance of the original image and the explained image
         '''
-        # Process the image
-        img = read_image(image_path)
-        preprocessed_image = self.preprocess(img).unsqueeze(0)
-
         # Make Prediction
-        predict = self.model(preprocessed_image).squeeze(0).softmax(0)
+        predict = self.model(self.preprocessed_image).squeeze(0).softmax(0)
         class_id = predict.argmax().item()        
         self.prediction = self.categories[class_id]
         #self.prediction = self.categories_eng[class_id]
 
         # Make images
-        attribution = self._get_explanation(class_id, preprocessed_image)
-        original_image = self._get_original_image(preprocessed_image, attribution)
-        ki_image = self._get_attribution_image(preprocessed_image, attribution, original_image)
+        attribution = self._get_explanation(class_id, self.preprocessed_image)
+        ki_image = self._get_attribution_image(self.preprocessed_image, attribution, self.original_image)
 
-        return original_image, ki_image
+        return ki_image
+    
+    def process_image(self, image_path:str):
+        # Process the image
+        img = read_image(image_path)
+        self.preprocessed_image = self.preprocess(img).unsqueeze(0)
+        self.original_image = self._get_original_image(self.preprocessed_image)
 
-    def _get_original_image(self, preprocessed_image, attribution)-> Image:
+        return self.original_image
+        
+
+    def _get_original_image(self, preprocessed_image)-> Image:
         '''Private function that returns the original but scaled image'''
         # Scale image
         scaled_image = self._scale_image(preprocessed_image)
         
         # Use Captum for visualisation        
-        fig, ax = viz.visualize_image_attr(attribution,
+        fig, ax = viz.visualize_image_attr(None, #hier
                                     np.transpose(scaled_image.squeeze().cpu().detach().numpy(), (1,2,0)),
                                     method='original_image',
                                     show_colorbar=False,

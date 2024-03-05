@@ -46,5 +46,11 @@ class ImageManager():
     
     def set_image(self, path: str):
         '''Sets the image in the path'''
-        self.original_image, self.ki_image = self.network.pass_image_to_net(path)
+        self.original_image = self.network.process_image(path)
+
+    def get_prediction(self):
+        
+        self.ki_image = self.network.pass_image_to_net()
         self.prediction = self.network.prediction
+        
+        return False

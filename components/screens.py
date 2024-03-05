@@ -1,4 +1,5 @@
 from kivymd.uix.screen import Screen as MDScreen
+from kivy.properties import BooleanProperty
 from kivymd.theming import ThemableBehavior
 
 from .cards import ModeOptionCard
@@ -95,9 +96,10 @@ class CompareScreen(DefaultScreen):
 
     '''
     def __init__(self, **kw):
+        self.network_status = BooleanProperty(True)
         super().__init__(**kw)
         # Get Boxlayout
-        self.compare_box = self.ids.compare_box
+        self.compare_box = self.ids.compare_box        
 
         # Set three main children (added dynamically and therefore not in .kv)
         self.ki_overlay = None
@@ -135,6 +137,8 @@ class CompareScreen(DefaultScreen):
     def set_images(self):
         self.ki_overlay = KIOverlayWidget()
         self.ki_overlay.bind(hit_compare=self.trigger_show_ki_image)
-        self.user_annotations = UserAnnotationsWidget(self.image_manager.original_image)
-        self.ki_image = KIImageWidget(self.image_manager.ki_image, self.image_manager.prediction) 
-        
+        self.user_annotations = UserAnnotationsWidget(self.image_manager.original_image)         
+    
+    def get_ki_images(self):
+        self.ki_overlay.network_status = self.image_manager.get_prediction()
+        self.ki_image = KIImageWidget(self.image_manager.ki_image, self.image_manager.prediction)

@@ -8,6 +8,7 @@ from utils import img2kivy
 
 class KIOverlayWidget(BoxLayout):
     hit_compare = BooleanProperty(False)
+    network_status = BooleanProperty(True)
 
 class UserImageWidget(BoxLayout):
     def __init__(self, user_input, user_image, **kwargs):
