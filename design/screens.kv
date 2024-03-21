@@ -2,17 +2,18 @@
     on_pre_enter: root.get_properties()
     on_pre_leave: root.set_properties()
 
-    theme_md_bg_color: "Custom"
-    md_bg_color: app.theme_cls.backgroundColor  
+    FitImage:
+        source:"ressources/background.jpg"
 
 <StartScreen>:
+    
     MDCard:
         padding: "20dp"
         size_hint: None, None
         size: "500dp", "300dp"
         pos_hint: {"center_x": .5, "center_y": .5}
         
-        style: "elevated"
+        style: "elevated"        
 
         MDBoxLayout:
             orientation: 'vertical'
@@ -30,6 +31,7 @@
                 text: "Los gehts!"
                 pos_hint: {"center_x": .5}
                 padding_bottom: "10dp"
+                # background color geht
                 on_press: root.manager.current = "mode"
 
 
@@ -45,8 +47,7 @@
         text: "Beenden"
         theme_text_color: "Custom"
         pos_hint: {"center_x": .5}
-        text_color: "cyan"
-
+        text_color: "orange"
         on_press: root.manager.current = "start"
 
 
@@ -57,14 +58,18 @@
         
 
     MDBoxLayout:
-        orientation: "vertical"        
-        
+        orientation: "vertical"
+        #padding: [padding_left, padding_top, padding_right, padding_bottom] 
+        padding: [10, 10, 10, 10] 
+
         MDBoxLayout:
             id: compare_box
             orientation: "horizontal"
             size: root.size
             padding: "5dp"
             spacing: "10px"
+            #color geos here. Position this box correctly!
+            md_bg_color: app.theme_cls.accent_light
 
         MDIconButton:
             icon: "reload"

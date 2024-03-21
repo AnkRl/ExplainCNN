@@ -16,7 +16,7 @@ class EfficientNet():
     def __init__(self) -> None:
         # Use pretrained efficient net as default. 
         weights = EfficientNet_B0_Weights.DEFAULT
-        self.preprocess = weights.transforms()
+        self.preprocess = weights.transforms() # What transform: https://pytorch.org/vision/main/models/generated/torchvision.models.efficientnet_b0.html#torchvision.models.EfficientNet_B0_Weights
 
         model = efficientnet_b0(weights)
         model.eval()

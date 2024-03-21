@@ -20,9 +20,9 @@ class ExplainerApp(MDApp):
     def build(self):
         #Setting colors
         self.theme_cls.theme_style = "Light"
-        self.theme_cls.theme_bg_color = "GreyBlue"
-        self.theme_cls.primary_palette= "Cyan"
-        self.theme_cls.backgroundColor = "Black"
+        self.theme_cls.primary_palette= "DeepOrange"
+        self.theme_cls.accent_palette = "Orange"
+        self.theme_cls.material_style = "M3"
 
         self.font_color = (0.13,0.13,0.13)
         self.button_size = "25sp"
@@ -34,7 +34,7 @@ class ExplainerApp(MDApp):
         #Need a ScreenManager to manage        
         sm = MDScreenManager()
         # sm.transition = SlideTransition()
-        # sm.transition.direction = "up"
+        # sm.transition.direction = "up"-
         sm.add_widget(StartScreen(image_manager=image_manager, name='start'))
         sm.add_widget(ModeScreen(image_manager=image_manager, name='mode'))
         sm.add_widget(CompareScreen(image_manager=image_manager, name='compare'))
