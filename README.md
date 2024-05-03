@@ -1,6 +1,7 @@
 # :hourglass_flowing_sand: ExplainCNN
 Visually explain image classifications.
-
+Install using pip install -r requirements.txt
+⚠️ There is a problem with matplotlib and captum. Replace line 250 `plt_axis.grid(b=False)` in captums `_utils/visualization.py` with `plt_axis.grid(visible=False)`
 ## :hammer_and_wrench: Currently working on
 GUI Design (compare figma prototype):
 |  Component   |  Status   |   Figma  |
