@@ -1,0 +1,22 @@
+{
+    "start_view": {
+      "title": "Ich sehe was, das du nicht siehst...",
+      "text": "Der Explainer hilf uns zu verstehen was KI sieht und warum sie manchmal auch daneben liegt. ",
+      "button": "Los geht's!"
+    },
+    "mode_view": {
+      "mode_random_title": "Zufallsbild",
+      "mode_random_text": "Some text goes here",
+      "mode_gallery_title": "Bild auswählen",
+      "mode_gallery_text": "Some text goes here",
+      "mode_camera_title": "Schnappschuss",
+      "mode_camera_text": "Some text goes here",
+      "button": "Auswählen"
+    },
+    "compare_view": {
+      "user_input": "Wass siehtst du?",
+      "user_text": "Makiere was du siehst",
+      "button": "Vergleiche mit KI"
+    }
+
+}

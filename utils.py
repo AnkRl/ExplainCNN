@@ -1,26 +1,24 @@
-from os.path import join, abspath
-from io import BytesIO
-from kivy.uix.image import Image, CoreImage
-import sys
+import json
 
-''' helper to make paths'''
-def resource_path(relative_path):
-    if hasattr(sys, '_MEIPASS'):
-        return join(sys._MEIPASS, relative_path)
-    return join(abspath("."), relative_path)
+IMAGE_YELLOW = "#F3CC19"
+IMAGE_ORANGE = "#EB600F"
+LNG = "DE"
+
+with open("assets/de.json", "rb") as f:
+    text = json.load(f)
+translator = text
+
+def switch_lng(lng):
+    match lng:
+        case "DE":
+            file = "assets/de.json"
+        case "EN" | _:
+            file = "assets/en.json"
+    with open(file) as f:
+        translator = json.load(f)
 
 
-'''Helper to make kivy images out of images'''
-def img2kivy(image, size_hint = (1,1)):
-        image = image.crop((1,1,462,462))
-        image_bytes = BytesIO()    
-        image.save(image_bytes, format="png")
-        image_bytes.seek(0)
 
-        img = CoreImage(image_bytes, ext="png").texture
-
-        new_img = Image(size_hint=size_hint)
-        new_img.texture = img
-        image_bytes.close()
-        
-        return new_img
+# Section 1
+# title_1 = text["section_1"]["title"]
+# text_1 = text["section_1"]["text"]
