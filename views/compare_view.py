@@ -15,10 +15,12 @@ translator = utils.translator["compare_view"]
 SIZE_CANVAS_X = 250
 SIZE_CANVAS_Y = 250
 
+
 def CompareView(router):
 
     router.image_manager.get_prediction()
-    router.image_manager.ki_image.save("ki_image.png")
+    #router.image_manager.ki_image.save("ki_image.png")
+    ki_image = router.image_manager.ki_image
 
     def out_of_boundary(e: ft.DragUpdateEvent):
         size_x, size_y = SIZE_CANVAS_X,SIZE_CANVAS_Y
@@ -32,7 +34,7 @@ def CompareView(router):
             return True
     
     def go_to(e: ft.ControlEvent):
-        e.page.go("/1")
+        e.page.go("/mode")
 
     def pan_start(e: ft.DragStartEvent):
         state.x = e.local_x
@@ -90,7 +92,7 @@ def CompareView(router):
                         theme_style = ft.TextThemeStyle.BODY_MEDIUM
                     ),
                     ft.Image(
-                        src="ki_image.png"
+                        src_base64=ki_image
                     )
                     #ft.ElevatedButton(translator["button"], on_click=go_to)
                 ],
