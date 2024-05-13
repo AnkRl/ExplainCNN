@@ -11,4 +11,7 @@ router.routes = {
   "/1": ModeView,
   "/2": CompareView,
   "/gallery": GalleryView,
+  "/start": StartView,
+  "/mode": ModeView,
+  "/compare": CompareView,
 }
