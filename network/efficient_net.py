@@ -1,6 +1,8 @@
 from torchvision.io import read_image
 from torchvision.models.efficientnet import efficientnet_b0, EfficientNet_B0_Weights
 from torchvision.transforms import Normalize
+from torchvision.transforms._presets import ImageClassification, InterpolationMode
+from functools import partial
 
 from captum.attr import Saliency
 from captum.attr import visualization as viz
@@ -16,8 +18,9 @@ class EfficientNet():
     def __init__(self) -> None:
         # Use pretrained efficient net as default. 
         weights = EfficientNet_B0_Weights.DEFAULT
-        self.preprocess = weights.transforms() # What transform: https://pytorch.org/vision/main/models/generated/torchvision.models.efficientnet_b0.html#torchvision.models.EfficientNet_B0_Weights
-
+        #self.preprocess = weights.transforms() # What transform: https://pytorch.org/vision/main/models/generated/torchvision.models.efficientnet_b0.html#torchvision.models.EfficientNet_B0_Weights
+        transform = partial(ImageClassification, crop_size=256, resize_size=256, interpolation=InterpolationMode.BICUBIC)
+        self.preprocess = transform()
         model = efficientnet_b0(weights)
         model.eval()
         self.model = model        
@@ -28,7 +31,7 @@ class EfficientNet():
         #     categories = f.read().split(',')
         self.categories = categories()
         self.categories_eng = weights.meta["categories"]
-    
+
     def pass_image_to_net(self):
         '''Triggers the image classification process
         :return: PIL Image instance of the original image and the explained image
@@ -49,8 +52,8 @@ class EfficientNet():
         # Process the image
         img = read_image(image_path)
         self.preprocessed_image = self.preprocess(img).unsqueeze(0)
+        
         self.original_image = self._get_original_image(self.preprocessed_image)
-
         return self.original_image
         
 
