@@ -1,6 +1,7 @@
 from typing import Callable, Any
 import flet as ft
 from enum import Enum
+from image_manager import ImageManager
 
 class DataStrategyEnum(Enum):
     QUERY = 0
@@ -8,12 +9,14 @@ class DataStrategyEnum(Enum):
     CLIENT_STORAGE = 2
     STATE = 3
 
+
 class Router:
     def __init__(self, data_strategy=DataStrategyEnum.QUERY):
         self.data_strategy = data_strategy
         self.data = dict()
         self.routes = {}
         self.body = ft.Container()
+        self.image_manager = ImageManager()
 
     def set_route(self, stub: str, view: Callable):
         self.routes[stub] = view

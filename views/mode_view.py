@@ -10,6 +10,9 @@ def ModeView(router):
     
     def go_to(e: ft.ControlEvent):
         e.page.go("/2")
+
+    def go_to_gallery(e: ft.ControlEvent):
+        e.page.go("/gallery")
     
     modes = [
         "mode_random", 
@@ -25,7 +28,7 @@ def ModeView(router):
 
     modes_handle_click = {
         "mode_random": go_to,
-        "mode_gallery": go_to,
+        "mode_gallery": go_to_gallery,
         "mode_camera": go_to,
     }
 
