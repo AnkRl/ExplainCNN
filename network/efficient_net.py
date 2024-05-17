@@ -16,11 +16,12 @@ import numpy as np
 
 class EfficientNet():
     def __init__(self) -> None:
-        # Use pretrained efficient net as default. 
+        # Use pretrained efficient net as default.
+        #TODO: ASYNC
         weights = EfficientNet_B0_Weights.DEFAULT
-        #self.preprocess = weights.transforms() # What transform: https://pytorch.org/vision/main/models/generated/torchvision.models.efficientnet_b0.html#torchvision.models.EfficientNet_B0_Weights
-        transform = partial(ImageClassification, crop_size=256, resize_size=256, interpolation=InterpolationMode.BICUBIC)
-        self.preprocess = transform()
+        self.preprocess = weights.transforms() # What transform: https://pytorch.org/vision/main/models/generated/torchvision.models.efficientnet_b0.html#torchvision.models.EfficientNet_B0_Weights
+        #transform = partial(ImageClassification, crop_size=256, resize_size=256, interpolation=InterpolationMode.BICUBIC)
+        #self.preprocess = transform()
         model = efficientnet_b0(weights)
         model.eval()
         self.model = model        
@@ -43,6 +44,7 @@ class EfficientNet():
         #self.prediction = self.categories_eng[class_id]
 
         # Make images
+        #TODO: ASYNC
         attribution = self._get_explanation(class_id, self.preprocessed_image)
         ki_image = self._get_attribution_image(self.preprocessed_image, attribution, self.original_image)
 

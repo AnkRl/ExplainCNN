@@ -16,12 +16,11 @@ SIZE_CANVAS_X = 250
 SIZE_CANVAS_Y = 250
 
 
-def CompareView(router):
+def ResultView(router):
 
     router.image_manager.get_prediction()
     #router.image_manager.ki_image.save("ki_image.png")
     ki_image = router.image_manager.ki_image
-    show_ai_image = False
 
     def out_of_boundary(e: ft.DragUpdateEvent):
         size_x, size_y = SIZE_CANVAS_X,SIZE_CANVAS_Y
@@ -35,11 +34,7 @@ def CompareView(router):
             return True
     
     def go_to(e: ft.ControlEvent):
-        router.set_data("canvas", cp)
         e.page.go("/result")
-
-    def on_change_input (e: ft.ControlEvent):
-        router.set_data("user_guess", e.data)
 
     def pan_start(e: ft.DragStartEvent):
         state.x = e.local_x
@@ -58,29 +53,19 @@ def CompareView(router):
             state.x = e.local_x
             state.y = e.local_y
 
-    cp = cv.Canvas([],
-        width=250,
-        height= 250,
-        content=ft.GestureDetector(
-            on_pan_start=pan_start,
-            on_pan_update=pan_update,
-            drag_interval=10,
-            width=250,
-            height= 250,
-        ),
-    )
+    cp = router.get_data("canvas")
 
     row_user = ft.Column([
                     ft.TextField(
                         label=translator["user_input"], 
                         icon=ft.icons.PERSON_ROUNDED,
-                        on_change = on_change_input,
-                        ),
+                        value = router.get_data("user_guess"),
+                        read_only=True),
                     ft.Text(
                         translator[f"user_text"],
                         theme_style = ft.TextThemeStyle.BODY_MEDIUM
-                        ),
-                    ft.Container(
+                    ),
+                        ft.Container(
                             cp,
                             margin=10,
                             padding=10,
@@ -95,7 +80,19 @@ def CompareView(router):
     )
 
     row_ai = ft.Column([
-                    ft.ElevatedButton(translator["button"], visible = not show_ai_image, on_click=go_to)
+                    ft.TextField(
+                        value = router.image_manager.prediction, 
+                        label=translator["user_input"], 
+                        icon=ft.icons.COMPUTER, 
+                        read_only=True,
+                    ),
+                    ft.Text(
+                        translator[f"user_text"],
+                        theme_style = ft.TextThemeStyle.BODY_MEDIUM,
+                    ),
+                    ft.Image(
+                        src_base64=ki_image ,
+                    )
                 ],
                 # Params for content column
                 alignment=ft.MainAxisAlignment.CENTER,
