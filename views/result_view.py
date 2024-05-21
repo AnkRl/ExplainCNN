@@ -32,26 +32,6 @@ def ResultView(router):
             return False
         else:
             return True
-    
-    def go_to(e: ft.ControlEvent):
-        e.page.go("/result")
-
-    def pan_start(e: ft.DragStartEvent):
-        state.x = e.local_x
-        state.y = e.local_y
-
-    def pan_update(e: ft.DragUpdateEvent):
-        if out_of_boundary(e):
-            pass
-        else:
-            cp.shapes.append(
-                cv.Line(
-                    state.x, state.y, e.local_x, e.local_y, paint=ft.Paint(color = utils.IMAGE_YELLOW, stroke_width=3)
-                ) 
-            )
-            cp.update()
-            state.x = e.local_x
-            state.y = e.local_y
 
     cp = router.get_data("canvas")
 

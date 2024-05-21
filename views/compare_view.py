@@ -2,6 +2,7 @@
 import flet as ft
 import flet.canvas as cv
 import utils
+import time
 
 class State:
     x: float
@@ -15,14 +16,43 @@ translator = utils.translator["compare_view"]
 SIZE_CANVAS_X = 250
 SIZE_CANVAS_Y = 250
 
+class ai_overlay(ft.UserControl):
+    def __init__(self, router, go_to):
+        super().__init__()
+        self.router = router
+        self.isolated = True
+        self.go_to = go_to
+
+    def did_mount(self):
+        self.update_timer()
+        self.button.disabled = False
+        self.update()
+
+    def update_timer(self):
+        for i in range(0, 101):
+            self.progress.value = i * 0.01
+            time.sleep(0.05)
+            self.update()
+        
+
+    def build(self):
+        self.button =ft.ElevatedButton(
+                        translator["button"], 
+                        disabled = True, 
+                        on_click=self.go_to)
+        self.progress = ft.ProgressRing(
+            width=50, 
+            height=50, 
+            stroke_width = 2,
+            value = 0.1)
+        
+        content = ft.Column([
+                    self.progress,
+                    self.button
+                    ])
+        return content
 
 def CompareView(router):
-
-    router.image_manager.get_prediction()
-    #router.image_manager.ki_image.save("ki_image.png")
-    ki_image = router.image_manager.ki_image
-    show_ai_image = False
-
     def out_of_boundary(e: ft.DragUpdateEvent):
         size_x, size_y = SIZE_CANVAS_X,SIZE_CANVAS_Y
         pos_x, pos_y = 0,0
@@ -57,7 +87,7 @@ def CompareView(router):
             cp.update()
             state.x = e.local_x
             state.y = e.local_y
-
+    
     cp = cv.Canvas([],
         width=250,
         height= 250,
@@ -94,8 +124,11 @@ def CompareView(router):
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
     )
 
-    row_ai = ft.Column([
-                    ft.ElevatedButton(translator["button"], visible = not show_ai_image, on_click=go_to)
+    row_ai = ft.Column([ ai_overlay(router=router, go_to=go_to)
+                    # ft.ElevatedButton(
+                    #     translator["button"], 
+                    #     disabled = show_ai_image, 
+                    #     on_click=go_to)
                 ],
                 # Params for content column
                 alignment=ft.MainAxisAlignment.CENTER,
@@ -124,6 +157,5 @@ def CompareView(router):
         margin=100,
         alignment=ft.alignment.center,
     )
-    
     
     return content
