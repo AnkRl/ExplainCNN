@@ -11,10 +11,8 @@ state = State()
 
 # handling translations
 
-import utils 
-translator = utils.translator["compare_view"]
-SIZE_CANVAS_X = 250
-SIZE_CANVAS_Y = 250
+SIZE_CANVAS_X = 350
+SIZE_CANVAS_Y = 350
 
 class ai_overlay(ft.UserControl):
     def __init__(self, router, go_to):
@@ -22,6 +20,7 @@ class ai_overlay(ft.UserControl):
         self.router = router
         self.isolated = True
         self.go_to = go_to
+        self.translator = router.get_data("translator")["compare_view"]
 
     def did_mount(self):
         self.update_timer()
@@ -37,7 +36,7 @@ class ai_overlay(ft.UserControl):
 
     def build(self):
         self.button =ft.ElevatedButton(
-                        translator["button"], 
+                        self.translator["button"], 
                         disabled = True, 
                         on_click=self.go_to)
         self.progress = ft.ProgressRing(
@@ -53,6 +52,17 @@ class ai_overlay(ft.UserControl):
         return content
 
 def CompareView(router):
+    translator = router.get_data("translator")["compare_view"]
+    router.image_manager.get_prediction()
+    #router.image_manager.ki_image.save("ki_image.png")
+    #ki_image = router.image_manager.ki_image
+
+    width = (utils.CENTER_X*2)*0.6
+    height = (utils.CENTER_Y*2)*0.6
+
+    vertical = (utils.CENTER_X - (0.5 * width))*0.5
+    horizontal = (utils.CENTER_Y - (0.5 * height))*0.5
+
     def out_of_boundary(e: ft.DragUpdateEvent):
         size_x, size_y = SIZE_CANVAS_X,SIZE_CANVAS_Y
         pos_x, pos_y = 0,0
@@ -89,14 +99,12 @@ def CompareView(router):
             state.y = e.local_y
     
     cp = cv.Canvas([],
-        width=250,
-        height= 250,
+        width=SIZE_CANVAS_X,
+        height= SIZE_CANVAS_Y,
         content=ft.GestureDetector(
             on_pan_start=pan_start,
             on_pan_update=pan_update,
             drag_interval=10,
-            width=250,
-            height= 250,
         ),
     )
 
@@ -109,14 +117,22 @@ def CompareView(router):
                     ft.Text(
                         translator[f"user_text"],
                         theme_style = ft.TextThemeStyle.BODY_MEDIUM
+                        ),                    
+                    ft.Stack([                        
+                        ft.Image(
+                            src=router.get_data("img_org"),
+                            height = SIZE_CANVAS_Y,
+                            width = SIZE_CANVAS_X,
                         ),
-                    ft.Container(
-                            cp,
-                            margin=10,
-                            padding=10,
-                            alignment=ft.alignment.center,
-                            image_src=router.get_data("img_org"),
-                    )
+                        cp
+                    ])
+                    # ft.Container(
+                    #         cp,
+                    #         width = 350,
+                    #         height = 350,
+                    #         alignment=ft.alignment.center,
+                    #         image_src=router.get_data("img_org"),
+                    # )
                     #ft.ElevatedButton(translator["button"], on_click=go_to)
                 ],
                 # Params for content column

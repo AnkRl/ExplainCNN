@@ -2,6 +2,7 @@
 import flet as ft
 import flet.canvas as cv
 import utils
+from assets.categories import *
 
 class State:
     x: float
@@ -9,18 +10,18 @@ class State:
 state = State()
 
 # handling translations
-
-import utils 
-translator = utils.translator["compare_view"]
 SIZE_CANVAS_X = 250
 SIZE_CANVAS_Y = 250
 
 
 def ResultView(router):
-
-    router.image_manager.get_prediction()
+    translator = router.get_data("translator")["compare_view"]
+    #router.image_manager.get_prediction()
     #router.image_manager.ki_image.save("ki_image.png")
     ki_image = router.image_manager.ki_image
+    curr_lng = router.get_data("lng")
+    categories = de_categories() if curr_lng is "DE" else en_categories()
+    ai_guess = categories[router.image_manager.prediction]
 
     def out_of_boundary(e: ft.DragUpdateEvent):
         size_x, size_y = SIZE_CANVAS_X,SIZE_CANVAS_Y
@@ -47,8 +48,8 @@ def ResultView(router):
                     ),
                         ft.Container(
                             cp,
-                            margin=10,
-                            padding=10,
+                            width = 350,
+                            height = 350,
                             alignment=ft.alignment.center,
                             image_src=router.get_data("img_org"),
                     )
@@ -56,12 +57,12 @@ def ResultView(router):
                 ],
                 # Params for content column
                 alignment=ft.MainAxisAlignment.CENTER,
-                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                #horizontal_alignment=ft.CrossAxisAlignment.CENTER,
     )
 
     row_ai = ft.Column([
                     ft.TextField(
-                        value = router.image_manager.prediction, 
+                        value = ai_guess, 
                         label=translator["user_input"], 
                         icon=ft.icons.COMPUTER, 
                         read_only=True,
@@ -72,11 +73,13 @@ def ResultView(router):
                     ),
                     ft.Image(
                         src_base64=ki_image ,
+                        width=350,
+                        height = 350,
                     )
                 ],
                 # Params for content column
                 alignment=ft.MainAxisAlignment.CENTER,
-                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                #horizontal_alignment=ft.CrossAxisAlignment.CENTER,
     )
     
     content = ft.Container(

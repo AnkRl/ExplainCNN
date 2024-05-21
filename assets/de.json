@@ -1,4 +1,9 @@
 {
+    "nav": {
+      "home": "Home",
+      "redo": "Neu",
+      "lang": "Sprache"
+    },
     "start_view": {
       "title": "Ich sehe was, das du nicht siehst...",
       "text": "Der Explainer hilf uns zu verstehen was KI sieht und warum sie manchmal auch daneben liegt. ",

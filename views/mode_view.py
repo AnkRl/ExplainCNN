@@ -1,16 +1,10 @@
 import flet as ft
-
-# handling translations
-import utils 
-translator = utils.translator["mode_view"]
+import utils
 
 def ModeView(router):
-    width = (utils.CENTER_X*2)*0.6
-    height = (utils.CENTER_Y*2)*0.4
+    translator = router.get_data("translator")["mode_view"]
+    width, height, vertical, horizontal = utils.get_size_with_margin(0.6,0.4)
 
-    vertical = (utils.CENTER_X - (0.5 * width))*0.5
-    horizontal = (utils.CENTER_Y - (0.5 * height))*0.5
-    
     def go_to_camera(e: ft.ControlEvent):
         e.page.go("/camera")
 

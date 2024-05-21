@@ -10,7 +10,6 @@ from captum.attr import visualization as viz
 from io import BytesIO
 from PIL import Image
 
-from .translate import categories
 
 import numpy as np
 
@@ -19,9 +18,9 @@ class EfficientNet():
         # Use pretrained efficient net as default.
         #TODO: ASYNC
         weights = EfficientNet_B0_Weights.DEFAULT
-        self.preprocess = weights.transforms() # What transform: https://pytorch.org/vision/main/models/generated/torchvision.models.efficientnet_b0.html#torchvision.models.EfficientNet_B0_Weights
-        #transform = partial(ImageClassification, crop_size=256, resize_size=256, interpolation=InterpolationMode.BICUBIC)
-        #self.preprocess = transform()
+        #self.preprocess = weights.transforms() # What transform: https://pytorch.org/vision/main/models/generated/torchvision.models.efficientnet_b0.html#torchvision.models.EfficientNet_B0_Weights
+        transform = partial(ImageClassification, crop_size=256, resize_size=256, interpolation=InterpolationMode.BICUBIC)
+        self.preprocess = transform()
         model = efficientnet_b0(weights)
         model.eval()
         self.model = model        
@@ -30,8 +29,10 @@ class EfficientNet():
         # Categories
         # with open(resource_path('/network/translate.txt'),'r', encoding='utf-8') as f:
         #     categories = f.read().split(',')
-        self.categories = categories()
-        self.categories_eng = weights.meta["categories"]
+        # if lng is "DE":
+        #     self.categories = categories()
+        # else:
+        #     self.categories_eng = weights.meta["categories"]
 
     def pass_image_to_net(self):
         '''Triggers the image classification process
@@ -40,7 +41,8 @@ class EfficientNet():
         # Make Prediction
         predict = self.model(self.preprocessed_image).squeeze(0).softmax(0)
         class_id = predict.argmax().item()        
-        self.prediction = self.categories[class_id]
+        self.prediction = class_id
+        #self.prediction = self.categories[class_id]
         #self.prediction = self.categories_eng[class_id]
 
         # Make images

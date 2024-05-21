@@ -5,13 +5,14 @@ from views.compare_view import CompareView
 from views.gallery_view import GalleryView
 from views.result_view import ResultView
 from views.camera_view import CameraView
+from views.language_view import LanguageView
 
 router = Router(DataStrategyEnum.ROUTER_DATA)
 
 router.routes = {
   "/0": StartView,
   "/1": ModeView,
-  "/2": CompareView,
+  "/2": LanguageView,
   "/gallery": GalleryView,
   "/start": StartView,
   "/mode": ModeView,

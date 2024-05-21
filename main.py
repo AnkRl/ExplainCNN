@@ -2,6 +2,7 @@ import flet as ft
 from views.routes import router
 from user_controls.app_bar import NavBar
 import utils
+import json
 
 def main(page: ft.Page):
 
@@ -9,6 +10,14 @@ def main(page: ft.Page):
     page.theme = ft.theme.Theme(color_scheme_seed = utils.IMAGE_ORANGE)
     #page.window_full_screen=True
     page.padding = 0
+
+    # Translator
+    with open("assets/de.json", "rb") as f:
+        text = json.load(f)
+    
+    router.set_data("translator", text)
+    router.set_data("lng", "DE")
+
     page.appbar = NavBar(page)
     
     utils.CENTER_X = page.width * 0.5
@@ -21,6 +30,7 @@ def main(page: ft.Page):
         # page.snack_bar.open = True
         page.update()
 
+    
     page.on_resize = page_resize
     page.on_route_change = router.route_change
     router.page = page
@@ -31,6 +41,6 @@ def main(page: ft.Page):
         ])
     )
 
-    page.go('/start')
+    page.go('/gallery')
 
 ft.app(target=main, assets_dir="assets")
