@@ -4,6 +4,9 @@ IMAGE_YELLOW = "#F3CC19"
 IMAGE_ORANGE = "#EB600F"
 LNG = "DE"
 
+CENTER_X = 0
+CENTER_Y = 0
+
 with open("assets/de.json", "rb") as f:
     text = json.load(f)
 translator = text

@@ -8,8 +8,11 @@ import utils
 translator = utils.translator["start_view"]
 
 def StartView(router_data: Union[Router, str, None] = None):
+    width = (utils.CENTER_X*2)*0.6
+    height = (utils.CENTER_Y*2)*0.6
 
-    #TODO: Load everything in the background!
+    vertical = (utils.CENTER_X - (0.5 * width))*0.5
+    horizontal = (utils.CENTER_Y - (0.5 * height))*0.5
     
     def go_to(e: ft.ControlEvent):
         e.page.go("/1")
@@ -40,15 +43,15 @@ def StartView(router_data: Union[Router, str, None] = None):
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         ),
         # Params for Main content container
-        width= 600,
-        height= 600,
+        width= width,
+        height= height,
         border_radius= 18,
         border= ft.border.all(1, "#44f4f4f4"),
         alignment=ft.alignment.center,
         blur= ft.Blur(10,12,ft.BlurTileMode.MIRROR),   
         
         ),
-        margin=100,
+        margin= ft.margin.symmetric(horizontal=horizontal, vertical=vertical),
         alignment=ft.alignment.center,
     )
     

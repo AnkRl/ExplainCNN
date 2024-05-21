@@ -5,8 +5,11 @@ import utils
 translator = utils.translator["mode_view"]
 
 def ModeView(router):
+    width = (utils.CENTER_X*2)*0.6
+    height = (utils.CENTER_Y*2)*0.4
 
-    #TODO: Handle images
+    vertical = (utils.CENTER_X - (0.5 * width))*0.5
+    horizontal = (utils.CENTER_Y - (0.5 * height))*0.5
     
     def go_to_camera(e: ft.ControlEvent):
         e.page.go("/camera")
@@ -16,7 +19,7 @@ def ModeView(router):
     
     def go_to_random(e:ft.ControlEvent):        
         router.set_data("img_org", router.image_manager.random_image())
-        e.page.go("/2")
+        e.page.go("/compare")
 
     modes = [
         "mode_random", 
@@ -40,7 +43,7 @@ def ModeView(router):
                     content=ft.Container(
                         content=ft.Column(
                             [
-                                ft.Icon(name=modes_icons[mode], color=ft.colors.PRIMARY, size=50),
+                                ft.Icon(name=modes_icons[mode], color=ft.colors.PRIMARY, size=70),
                                 ft.Text(
                                     translator[f"{mode}_title"],
                                     theme_style=ft.TextThemeStyle.TITLE_SMALL
@@ -55,7 +58,8 @@ def ModeView(router):
                             alignment=ft.MainAxisAlignment.CENTER,
                             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                         ),
-                        width=240,
+                        width = (width*0.9)/3,
+                        height = height*0.9,
                         padding=10,
                     ))
         for mode in modes
@@ -69,14 +73,14 @@ def ModeView(router):
                 alignment=ft.MainAxisAlignment.CENTER,
             ),
         # Params for Main content container
-        width= 900,
-        height= 300,
+        width= width,
+        height= height,
         border_radius= 18,
         border= ft.border.all(1, "#44f4f4f4"),
         alignment=ft.alignment.center,
         blur= ft.Blur(10,12,ft.BlurTileMode.MIRROR),        
         ),
-        margin=100,
+        margin=ft.margin.symmetric(horizontal=horizontal, vertical=vertical),
         alignment=ft.alignment.center,
     )
     
