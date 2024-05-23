@@ -1,4 +1,4 @@
-from views.Router import Router, DataStrategyEnum
+from views.Router import Router
 from views.start_view import StartView
 from views.mode_view import ModeView
 from views.compare_view import CompareView
@@ -7,7 +7,7 @@ from views.result_view import ResultView
 from views.camera_view import CameraView
 from views.language_view import LanguageView
 
-router = Router(DataStrategyEnum.ROUTER_DATA)
+router = Router()
 
 router.routes = {
   "/0": StartView,

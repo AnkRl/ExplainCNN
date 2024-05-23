@@ -1,18 +1,9 @@
-from typing import Callable, Any
+from typing import Callable
 import flet as ft
-from enum import Enum
 from image_manager import ImageManager
 
-class DataStrategyEnum(Enum):
-    QUERY = 0
-    ROUTER_DATA = 1
-    CLIENT_STORAGE = 2
-    STATE = 3
-
-
 class Router:
-    def __init__(self, data_strategy=DataStrategyEnum.QUERY):
-        self.data_strategy = data_strategy
+    def __init__(self):
         self.data = dict()
         self.routes = {}
         self.body = ft.Container()

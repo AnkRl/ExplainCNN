@@ -1,7 +1,4 @@
-from typing import Union
 import flet as ft
-from views.Router import Router, DataStrategyEnum
-from State import global_state, State
 import utils
 
 def StartView(router):    
