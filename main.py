@@ -41,6 +41,6 @@ def main(page: ft.Page):
         ])
     )
 
-    page.go('/gallery')
+    page.go('/start')
 
 ft.app(target=main, assets_dir="assets")

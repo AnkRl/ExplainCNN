@@ -11,9 +11,6 @@ state = State()
 
 # handling translations
 
-SIZE_CANVAS_X = 350
-SIZE_CANVAS_Y = 350
-
 class ai_overlay(ft.UserControl):
     def __init__(self, router, go_to):
         super().__init__()
@@ -39,6 +36,7 @@ class ai_overlay(ft.UserControl):
                         self.translator["button"], 
                         disabled = True, 
                         on_click=self.go_to)
+        
         self.progress = ft.ProgressRing(
             width=50, 
             height=50, 
@@ -46,9 +44,12 @@ class ai_overlay(ft.UserControl):
             value = 0.1)
         
         content = ft.Column([
-                    self.progress,
-                    self.button
-                    ])
+                            self.progress,
+                            self.button
+                        ],
+                        alignment=ft.MainAxisAlignment.CENTER,
+                        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                    )
         return content
 
 def CompareView(router):
@@ -57,11 +58,9 @@ def CompareView(router):
     #router.image_manager.ki_image.save("ki_image.png")
     #ki_image = router.image_manager.ki_image
 
-    width = (utils.CENTER_X*2)*0.6
-    height = (utils.CENTER_Y*2)*0.6
-
-    vertical = (utils.CENTER_X - (0.5 * width))*0.5
-    horizontal = (utils.CENTER_Y - (0.5 * height))*0.5
+    width, height, vertical, horizontal = utils.get_size_with_margin(0.8,0.8)
+    SIZE_CANVAS_X = (width*0.9)*0.5
+    SIZE_CANVAS_Y = (height*0.9)*0.5
 
     def out_of_boundary(e: ft.DragUpdateEvent):
         size_x, size_y = SIZE_CANVAS_X,SIZE_CANVAS_Y
@@ -91,7 +90,7 @@ def CompareView(router):
         else:
             cp.shapes.append(
                 cv.Line(
-                    state.x, state.y, e.local_x, e.local_y, paint=ft.Paint(color = utils.IMAGE_YELLOW, stroke_width=3)
+                    state.x, state.y, e.local_x, e.local_y, paint=ft.Paint(color = "#0000ff", stroke_width=3)
                 ) 
             )
             cp.update()
@@ -126,51 +125,88 @@ def CompareView(router):
                         ),
                         cp
                     ])
-                    # ft.Container(
-                    #         cp,
-                    #         width = 350,
-                    #         height = 350,
-                    #         alignment=ft.alignment.center,
-                    #         image_src=router.get_data("img_org"),
-                    # )
-                    #ft.ElevatedButton(translator["button"], on_click=go_to)
                 ],
                 # Params for content column
+                #TODO: Width?
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-    )
+            )
 
-    row_ai = ft.Column([ ai_overlay(router=router, go_to=go_to)
-                    # ft.ElevatedButton(
-                    #     translator["button"], 
-                    #     disabled = show_ai_image, 
-                    #     on_click=go_to)
-                ],
-                # Params for content column
-                alignment=ft.MainAxisAlignment.CENTER,
-                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-    )
+    row_ai = ft.Container(
+                    ft.Column([
+                        ft.TextField(
+                            label=translator["user_input"], 
+                            icon=ft.icons.COMPUTER, 
+                            read_only=True,
+                        ),
+                        ft.Text(
+                            translator[f"user_text"],
+                            theme_style = ft.TextThemeStyle.BODY_MEDIUM,
+                        ),
+                        ft.Image(
+                            src=router.get_data("img_org"),
+                            height = SIZE_CANVAS_Y,
+                            width = SIZE_CANVAS_X,
+                        ),
+                        
+                    ],
+                    # Params for content column
+                    alignment=ft.MainAxisAlignment.CENTER,
+                    horizontal_alignment=ft.CrossAxisAlignment.CENTER
+                ),
+                width=(width*0.9)/2,
+                height=height*0.9,
+                alignment=ft.alignment.center
+            )
+    
+    ao = ai_overlay(router=router, go_to=go_to)
+    
+    overlay_ai = ft.Container(
+                        ao,
+                        width=(width*0.91)/2,
+                        height=height*0.91,
+                        alignment=ft.alignment.center,
+                        blur=ft.Blur(2,2,ft.BlurTileMode.MIRROR),
+                    )
     
     content = ft.Container(
-        ft.Container(
-            ft.Row([
-                # User
-                row_user,
-                #AI
-                row_ai
-            ],
-                # Params for content row
-                alignment=ft.MainAxisAlignment.CENTER,
-            ),
-        # Params for Main content container
-        width= 900,
-        height= 700,
-        border_radius= 18,
-        border= ft.border.all(1, "#44f4f4f4"),
-        alignment=ft.alignment.center,
-        blur= ft.Blur(10,12,ft.BlurTileMode.MIRROR),        
-        ),
-        margin=100,
+                ft.Container(
+                    ft.Row([
+                        # User
+                        ft.Container(
+                            row_user,
+                            width=(width*0.9)/2,
+                            height=height*0.9,
+                            alignment=ft.alignment.center
+                        ),                
+                        #AI
+                        ft.Container(
+                            ft.Stack([
+                                row_ai,
+                                overlay_ai
+                            ]),
+                            width=(width*0.9)/2,
+                            height=height*0.9,
+                            alignment=ft.alignment.center
+                        )
+                    ],
+                        # # Params for content row
+                        # width=(width*0.9),
+                        # height=height*0.9,
+                        # alignment=ft.MainAxisAlignment.CENTER,
+                        # vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                        
+                        alignment=ft.MainAxisAlignment.CENTER,
+                    ),
+                # Params for Main content container
+                width= width,
+                height= height,
+                border_radius= 18,
+                border= ft.border.all(1, "#44f4f4f4"),
+                alignment=ft.alignment.center,
+                blur= ft.Blur(10,12,ft.BlurTileMode.MIRROR),        
+                ),
+        margin=ft.margin.symmetric(horizontal=horizontal, vertical=vertical),
         alignment=ft.alignment.center,
     )
     
