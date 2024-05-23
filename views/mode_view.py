@@ -59,23 +59,10 @@ def ModeView(router):
         for mode in modes
     ]
 
-    content = ft.Container(
-        ft.Container(
-            ft.Row(
+    content = ft.Row(
                 card_list,
                 # Params for content row
                 alignment=ft.MainAxisAlignment.CENTER,
-            ),
-        # Params for Main content container
-        width= width,
-        height= height,
-        border_radius= 18,
-        border= ft.border.all(1, "#44f4f4f4"),
-        alignment=ft.alignment.center,
-        blur= ft.Blur(10,12,ft.BlurTileMode.MIRROR),        
-        ),
-        margin=ft.margin.symmetric(horizontal=horizontal, vertical=vertical),
-        alignment=ft.alignment.center,
-    )
+            )
     
     return content

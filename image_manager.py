@@ -52,9 +52,4 @@ class ImageManager():
         self.prediction = self.network.prediction
         
         return False
-
-    def process_images(path):
-        img = read_image(path)
-        partial( ImageClassification, crop_size=224, resize_size=224, interpolation=InterpolationMode.BICUBIC)
-
     

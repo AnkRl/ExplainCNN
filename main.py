@@ -6,18 +6,19 @@ import json
 
 def main(page: ft.Page):
 
+    # Set basic properties
     page.theme_mode = "light"
     page.theme = ft.theme.Theme(color_scheme_seed = utils.IMAGE_ORANGE)
     #page.window_full_screen=True
     page.padding = 0
 
-    # Translator
+    # Load Translator
     with open("assets/de.json", "rb") as f:
-        text = json.load(f)
-    
+        text = json.load(f)    
     router.set_data("translator", text)
     router.set_data("lng", "DE")
 
+    # Add Appbar
     page.appbar = NavBar(page)
     
     utils.CENTER_X = page.width * 0.5

@@ -39,20 +39,5 @@ def GalleryView(router):
                         on_click= lambda e: handle_click(e)
                     )
                     for img in all_images]
-    
-    content = ft.Container(
-        ft.Container(
-        images,
-        # Params for Main content container
-        width= width,
-        height= height,
-        border_radius= 18,
-        border= ft.border.all(1, "#44f4f4f4"),
-        alignment=ft.alignment.center,
-        blur= ft.Blur(10,12,ft.BlurTileMode.MIRROR),   
-        
-        ),
-        margin= ft.margin.symmetric(horizontal=horizontal, vertical=vertical),
-        alignment=ft.alignment.center,
-    )
-    return content
+
+    return images

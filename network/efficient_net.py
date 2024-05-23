@@ -18,21 +18,15 @@ class EfficientNet():
         # Use pretrained efficient net as default.
         #TODO: ASYNC
         weights = EfficientNet_B0_Weights.DEFAULT
-        #self.preprocess = weights.transforms() # What transform: https://pytorch.org/vision/main/models/generated/torchvision.models.efficientnet_b0.html#torchvision.models.EfficientNet_B0_Weights
+        #self.preprocess = weights.transforms() 
+        #What transform: https://pytorch.org/vision/main/models/generated/torchvision.models.efficientnet_b0.html#torchvision.models.EfficientNet_B0_Weights
+        #MAke custom, to avoid zooming and cropping
         transform = partial(ImageClassification, crop_size=256, resize_size=256, interpolation=InterpolationMode.BICUBIC)
         self.preprocess = transform()
         model = efficientnet_b0(weights)
         model.eval()
         self.model = model        
         self.saliency = Saliency(self.model)
-
-        # Categories
-        # with open(resource_path('/network/translate.txt'),'r', encoding='utf-8') as f:
-        #     categories = f.read().split(',')
-        # if lng is "DE":
-        #     self.categories = categories()
-        # else:
-        #     self.categories_eng = weights.meta["categories"]
 
     def pass_image_to_net(self):
         '''Triggers the image classification process

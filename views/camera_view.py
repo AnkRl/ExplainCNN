@@ -49,11 +49,16 @@ class Countdown(ft.UserControl):
         content = ft.Column([
                     self.img,
                     ft.IconButton(
-                        icon=ft.icons.PLAY_CIRCLE_FILL_OUTLINED, 
+                        icon=ft.icons.PLAY_CIRCLE_FILL_OUTLINED,
                         on_click=self.save_image,
-                        data=0
+                        data=0,
+                        icon_size=100,
                     )
-        ])
+        ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+
+        )
         return content
 
 def height_changed(e):
@@ -73,7 +78,10 @@ def CameraView(router):
     remove_photos()
     content = ft.Column([
                     Countdown(router=router)
-                ]
+                ],
+                # Params for content column
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                 )
     return content
 

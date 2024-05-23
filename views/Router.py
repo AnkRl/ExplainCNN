@@ -1,6 +1,7 @@
 from typing import Callable
 import flet as ft
 from image_manager import ImageManager
+from utils import get_size_with_margin
 
 class Router:
     def __init__(self):
@@ -24,8 +25,23 @@ class Router:
             key = item.split("=")[0]
             value = item.split("=")[1]
             self.data[key] = value.replace('+', ' ')
+        
+        width, height, vertical, horizontal = get_size_with_margin(0.8,0.8)
 
-        self.body.content = self.routes[_page](self)
+        self.body.content = ft.Container(
+                                ft.Container(
+                                    content = self.routes[_page](self),
+                                    # Params for Main content container
+                                    width= width,
+                                    height= height,
+                                    border_radius= 18,
+                                    #border= ft.border.all(1, "#44f4f4f4"),
+                                    alignment=ft.alignment.center,
+                                    blur= ft.Blur(10,12,ft.BlurTileMode.MIRROR)
+                                ),
+                                margin= ft.margin.symmetric(horizontal=horizontal, vertical=vertical),
+                                alignment=ft.alignment.center,
+                            )
         self.body.update()
 
     def set_data(self, key, value):

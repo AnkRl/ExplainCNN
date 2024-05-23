@@ -169,9 +169,7 @@ def CompareView(router):
                         blur=ft.Blur(2,2,ft.BlurTileMode.MIRROR),
                     )
     
-    content = ft.Container(
-                ft.Container(
-                    ft.Row([
+    content =      ft.Row([
                         # User
                         ft.Container(
                             row_user,
@@ -197,17 +195,6 @@ def CompareView(router):
                         # vertical_alignment=ft.CrossAxisAlignment.CENTER,
                         
                         alignment=ft.MainAxisAlignment.CENTER,
-                    ),
-                # Params for Main content container
-                width= width,
-                height= height,
-                border_radius= 18,
-                border= ft.border.all(1, "#44f4f4f4"),
-                alignment=ft.alignment.center,
-                blur= ft.Blur(10,12,ft.BlurTileMode.MIRROR),        
-                ),
-        margin=ft.margin.symmetric(horizontal=horizontal, vertical=vertical),
-        alignment=ft.alignment.center,
-    )
+                    )
     
     return content
