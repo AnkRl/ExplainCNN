@@ -3,7 +3,7 @@ import utils
 
 def ModeView(router):
     translator = router.get_data("translator")["mode_view"]
-    width, height, vertical, horizontal = utils.get_size_with_margin(0.6,0.4)
+    width, height = utils.get_size(0.6,0.4)
 
     def go_to_camera(e: ft.ControlEvent):
         e.page.go("/camera")
@@ -25,6 +25,12 @@ def ModeView(router):
         "mode_random": ft.icons.IMAGE,
         "mode_gallery": ft.icons.IMAGE_SEARCH,
         "mode_camera": ft.icons.CAMERA_ALT_ROUNDED,
+    }
+
+    modes_images = {
+        "mode_random": "assets/random.svg",
+        "mode_gallery": "assets/gallery.svg",
+        "mode_camera": "assets/camera.svg",
     }
 
     modes_handle_click = {
@@ -56,6 +62,33 @@ def ModeView(router):
                         height = height*0.9,
                         padding=10,
                     ))
+        for mode in modes
+    ]
+
+    card_list = [ft.GestureDetector(
+                        content=ft.Container(
+                            content=ft.Column(
+                                [
+                                    ft.Image(src=modes_images[mode],
+                                             width=(width*0.9)/3
+                                             ),
+                                    ft.Text(
+                                        translator[f"{mode}_title"],
+                                        theme_style=ft.TextThemeStyle.HEADLINE_SMALL,
+                                        color="white"
+                                    )
+                                ],
+                                # Params for content column
+                                alignment=ft.MainAxisAlignment.CENTER,
+                                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                            ),
+                            width = (width*0.9)/3,
+                            height = height*0.9,
+                            padding=10,
+                        ),
+                    on_tap= modes_handle_click[mode],
+                )
+
         for mode in modes
     ]
 

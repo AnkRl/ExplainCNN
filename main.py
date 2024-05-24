@@ -8,7 +8,10 @@ def main(page: ft.Page):
 
     # Set basic properties
     page.theme_mode = "light"
-    page.theme = ft.theme.Theme(color_scheme_seed = utils.IMAGE_ORANGE)
+    page.theme = ft.Theme(color_scheme_seed = utils.IMAGE_ORANGE, color_scheme = ft.ColorScheme(primary=utils.IMAGE_ORANGE_DARK, secondary=utils.IMAGE_ORANGE_LIGHT, tertiary=utils.IMAGE_YELLOW))
+    #ft.colors.SECONDARY = utils.IMAGE_ORANGE_60
+    #color_scheme_seed = utils.IMAGE_ORANGE, 
+
     #page.window_full_screen=True
     page.padding = 0
 

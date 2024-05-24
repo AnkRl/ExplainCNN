@@ -5,8 +5,8 @@ def NavBar(page):
 
     CupBar = ft.CupertinoNavigationBar(
         bgcolor = ft.colors.with_opacity(0.5, utils.IMAGE_ORANGE), #ft.colors.AMBER_100,
-        #inactive_color = ft.colors.with_opacity(0.9, utils.IMAGE_YELLOW),
-        #active_color=ft.colors.with_opacity(0.9, utils.IMAGE_YELLOW),
+        inactive_color = ft.colors.with_opacity(0.9, utils.IMAGE_ORANGE_LIGHT),
+        active_color=ft.colors.with_opacity(0.9, utils.IMAGE_ORANGE_DARK),
         on_change = lambda e: page.go(f"/{e.control.selected_index}"),
         destinations = [
             ft.NavigationDestination(icon=ft.icons.HOME_ROUNDED),

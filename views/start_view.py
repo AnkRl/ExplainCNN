@@ -3,15 +3,18 @@ import utils
 
 def StartView(router):    
     translator = router.get_data("translator")["start_view"]
-
-    width, height, vertical, horizontal = utils.get_size_with_margin(0.6,0.6)
+    width, height = utils.get_size_main_container()
     
     def go_to(e: ft.ControlEvent):
         e.page.go("/mode")
 
+    image = ft.Image(
+        src = "assets/start.svg",
+        width=width*0.6,
+    )
     title = ft.Text(
         translator["title"],
-        color="white",
+        color= ft.colors.SECONDARY,#"white",
         theme_style=ft.TextThemeStyle.HEADLINE_SMALL
     )
     text = ft.Text(
@@ -23,6 +26,7 @@ def StartView(router):
     start_button.on_click = go_to
 
     content = ft.Column([
+                        image,
                         title,
                         text,
                         start_button
@@ -30,6 +34,7 @@ def StartView(router):
                     # Params for content column
                     alignment=ft.MainAxisAlignment.CENTER,
                     horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                    
                     )
     
     return content

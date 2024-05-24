@@ -9,8 +9,6 @@ class State:
     y: float
 state = State()
 
-# handling translations
-
 class ai_overlay(ft.UserControl):
     def __init__(self, router, go_to):
         super().__init__()
@@ -54,16 +52,20 @@ class ai_overlay(ft.UserControl):
 
 def CompareView(router):
     translator = router.get_data("translator")["compare_view"]
-    router.image_manager.get_prediction()
+    #router.image_manager.get_prediction()
     #router.image_manager.ki_image.save("ki_image.png")
     #ki_image = router.image_manager.ki_image
 
-    width, height, vertical, horizontal = utils.get_size_with_margin(0.8,0.8)
-    SIZE_CANVAS_X = (width*0.9)*0.5
-    SIZE_CANVAS_Y = (height*0.9)*0.5
+    # Calculate widths
+    width, height = utils.get_size_main_container()    
+    max_size_image = width/3
+    print(f"Max: {max_size_image}")
+    half_box = width*0.5
+    size_user = width*0.15
+    size_ai = width*0.14
 
     def out_of_boundary(e: ft.DragUpdateEvent):
-        size_x, size_y = SIZE_CANVAS_X,SIZE_CANVAS_Y
+        size_x, size_y = max_size_image,max_size_image
         pos_x, pos_y = 0,0
         x = e.local_x
         y = e.local_y
@@ -98,8 +100,8 @@ def CompareView(router):
             state.y = e.local_y
     
     cp = cv.Canvas([],
-        width=SIZE_CANVAS_X,
-        height= SIZE_CANVAS_Y,
+        width=max_size_image,
+        height= max_size_image,
         content=ft.GestureDetector(
             on_pan_start=pan_start,
             on_pan_update=pan_update,
@@ -107,94 +109,99 @@ def CompareView(router):
         ),
     )
 
-    row_user = ft.Column([
-                    ft.TextField(
-                        label=translator["user_input"], 
-                        icon=ft.icons.PERSON_ROUNDED,
-                        on_change = on_change_input,
-                        ),
-                    ft.Text(
-                        translator[f"user_text"],
-                        theme_style = ft.TextThemeStyle.BODY_MEDIUM
-                        ),                    
-                    ft.Stack([                        
-                        ft.Image(
-                            src=router.get_data("img_org"),
-                            height = SIZE_CANVAS_Y,
-                            width = SIZE_CANVAS_X,
-                        ),
-                        cp
-                    ])
-                ],
-                # Params for content column
-                #TODO: Width?
-                alignment=ft.MainAxisAlignment.CENTER,
-                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+    row_user = ft.Container(
+                    ft.Column([
+                        ft.TextField(
+                            label=translator["user_input"],
+                            on_change = on_change_input,
+                            width=max_size_image,
+                            border_color="white",
+                            color="white",
+                            label_style=ft.TextStyle(color=utils.IMAGE_ORANGE_DARK)
+                            ),
+                        ft.Text(
+                            translator[f"user_text"],
+                            theme_style = ft.TextThemeStyle.BODY_LARGE,
+                            color="white"
+                            ),                    
+                        ft.Stack([                        
+                            ft.Image(
+                                src=router.get_data("img_org"),
+                                height = max_size_image,
+                                width = max_size_image,
+                            ),
+                            cp
+                        ])
+                    ],
+                    # Params for content column
+                    alignment=ft.MainAxisAlignment.CENTER,
+                ),
+                width=half_box,
+                alignment=ft.alignment.center_right,
             )
 
     row_ai = ft.Container(
                     ft.Column([
                         ft.TextField(
-                            label=translator["user_input"], 
-                            icon=ft.icons.COMPUTER, 
+                            label=translator["user_input"],
                             read_only=True,
+                            width=max_size_image,
+                            border_color="white",
+                            color="white"
                         ),
                         ft.Text(
                             translator[f"user_text"],
-                            theme_style = ft.TextThemeStyle.BODY_MEDIUM,
+                            theme_style = ft.TextThemeStyle.BODY_LARGE,
+                            color="white"
                         ),
                         ft.Image(
                             src=router.get_data("img_org"),
-                            height = SIZE_CANVAS_Y,
-                            width = SIZE_CANVAS_X,
+                            height = max_size_image,
+                            width = max_size_image,
                         ),
-                        
                     ],
                     # Params for content column
                     alignment=ft.MainAxisAlignment.CENTER,
-                    horizontal_alignment=ft.CrossAxisAlignment.CENTER
                 ),
-                width=(width*0.9)/2,
-                height=height*0.9,
-                alignment=ft.alignment.center
+                width=half_box,
+                alignment=ft.alignment.center_left
             )
     
     ao = ai_overlay(router=router, go_to=go_to)
     
     overlay_ai = ft.Container(
                         ao,
-                        width=(width*0.91)/2,
-                        height=height*0.91,
-                        alignment=ft.alignment.center,
+                        width=half_box,
+                        alignment=ft.alignment.Alignment(-0.4, 0),
                         blur=ft.Blur(2,2,ft.BlurTileMode.MIRROR),
                     )
     
-    content =      ft.Row([
-                        # User
-                        ft.Container(
-                            row_user,
-                            width=(width*0.9)/2,
-                            height=height*0.9,
-                            alignment=ft.alignment.center
-                        ),                
-                        #AI
-                        ft.Container(
-                            ft.Stack([
-                                row_ai,
-                                overlay_ai
-                            ]),
-                            width=(width*0.9)/2,
-                            height=height*0.9,
-                            alignment=ft.alignment.center
-                        )
-                    ],
-                        # # Params for content row
-                        # width=(width*0.9),
-                        # height=height*0.9,
-                        # alignment=ft.MainAxisAlignment.CENTER,
-                        # vertical_alignment=ft.CrossAxisAlignment.CENTER,
-                        
-                        alignment=ft.MainAxisAlignment.CENTER,
-                    )
+    content =ft.Row([
+                # User
+                ft.Stack(
+                    [ft.Image(
+                        src = "assets/user.svg",
+                        width = size_user,
+                        top=0,
+                        left = 10),
+                    row_user]
+                ),                
+                #AI
+                ft.Stack([                                
+                    row_ai,
+                    overlay_ai,
+                    ft.Image(
+                            src = "assets/ai.svg",
+                            width = size_ai,
+                            top=0,
+                            right=10),
+                ]),
+            ],
+                # Params for content row
+                width=width,
+                height=height,
+                alignment=ft.MainAxisAlignment.CENTER,
+                vertical_alignment=ft.CrossAxisAlignment.CENTER,
+            )
     
     return content

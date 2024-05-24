@@ -1,16 +1,9 @@
 import flet as ft
-
-# handling translations
-
-import os
 import utils
 
 def GalleryView(router):
-    width, height, vertical, horizontal = utils.get_size_with_margin(0.8,0.8)
-    
-    def go_to(e: ft.ControlEvent):
-        e.page.go("/compare")
-    
+    width, height= utils.get_size_main_container()
+
     def handle_click(e: ft.ControlEvent):
         router.set_data("img_org", e.control.data)
         router.image_manager.set_image(e.control.data)
@@ -24,6 +17,7 @@ def GalleryView(router):
             child_aspect_ratio=1.0,
             spacing=1,
             run_spacing=1,
+            width=width*0.8
         )
     images.controls = [
                     ft.Container(

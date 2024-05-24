@@ -31,8 +31,10 @@ class ImageManager():
     
     # Convert Image to Base64 
     def im_2_b64(self,image):
+        image = image.resize((600,600))
         buff = BytesIO()
-        image.save(buff, format="PNG")
+        print(image.size)
+        image.save(buff, format="PNG")        
         img_str = base64.b64encode(buff.getvalue()).decode("utf-8")
         return img_str
     

@@ -2,10 +2,15 @@ import json
 
 IMAGE_YELLOW = "#F3CC19"
 IMAGE_ORANGE = "#EB600F"
+IMAGE_ORANGE_LIGHT = "#f3813f"
+IMAGE_ORANGE_DARK = "a8440b"
 LNG = "DE"
 
 CENTER_X = 0
 CENTER_Y = 0
+
+def get_size_main_container():
+    return get_size(0.8,0.8)
 
 def get_size(width, height):
     w = (CENTER_X*2)*width

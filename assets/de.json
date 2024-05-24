@@ -5,8 +5,8 @@
       "lang": "Sprache"
     },
     "start_view": {
-      "title": "Ich sehe was, das du nicht siehst...",
-      "text": "Der Explainer hilf uns zu verstehen was KI sieht und warum sie manchmal auch daneben liegt. ",
+      "title": "Du vs KI",
+      "text": "Woran erkennst du das Objekt? Und vor allem, woran erkennt die KI das Objekt?",
       "button": "Los geht's!"
     },
     "mode_view": {
