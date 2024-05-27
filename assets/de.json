@@ -11,16 +11,13 @@
     },
     "mode_view": {
       "mode_random_title": "Zufallsbild",
-      "mode_random_text": "Some text goes here",
       "mode_gallery_title": "Bild auswählen",
-      "mode_gallery_text": "Some text goes here",
       "mode_camera_title": "Schnappschuss",
-      "mode_camera_text": "Some text goes here",
       "button": "Auswählen"
     },
     "compare_view": {
-      "user_input": "Was siehtst du?",
-      "user_text": "Makiere was du siehst",
+      "user_input": "Was siehst du?",
+      "user_text": "Markiere was du siehst",
       "button": "Vergleiche mit KI"
     }
 
