@@ -1,0 +1,27 @@
+{
+    "nav": {
+      "home": "Home",
+      "redo": "Neu",
+      "lang": "Sprache"
+    },
+    "start_view": {
+      "title": "Du vs KI",
+      "text": "Woran erkennst du das Objekt? Und vor allem, woran erkennt die KI das Objekt?",
+      "button": "Los geht's!"
+    },
+    "mode_view": {
+      "mode_random_title": "Zufallsbild",
+      "mode_random_text": "Some text goes here",
+      "mode_gallery_title": "Bild auswählen",
+      "mode_gallery_text": "Some text goes here",
+      "mode_camera_title": "Schnappschuss",
+      "mode_camera_text": "Some text goes here",
+      "button": "Auswählen"
+    },
+    "compare_view": {
+      "user_input": "Was siehtst du?",
+      "user_text": "Makiere was du siehst",
+      "button": "Vergleiche mit KI"
+    }
+
+}

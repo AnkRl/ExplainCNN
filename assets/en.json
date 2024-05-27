@@ -1,0 +1,27 @@
+{
+    "nav": {
+      "home": "Home",
+      "redo": "New",
+      "lang": "Language"
+    },
+    "start_view": {
+      "title": "I see something you don't see...",
+      "text": "This Explainer helps us to understand what the AI sees and why it is sometimes wrong",
+      "button": "Let's go!"
+    },
+    "mode_view": {
+      "mode_random_title": "Random Image",
+      "mode_random_text": "Some text goes here",
+      "mode_gallery_title": "Choose Image",
+      "mode_gallery_text": "Some text goes here",
+      "mode_camera_title": "Take a Picture",
+      "mode_camera_text": "Some text goes here",
+      "button": "Choose"
+    },
+    "compare_view": {
+      "user_input": "What do you see?",
+      "user_text": "Mark what you see",
+      "button": "Compare with AI"
+    }
+
+}

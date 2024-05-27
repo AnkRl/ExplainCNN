@@ -1,45 +1,50 @@
-from kivymd.app import MDApp
-from kivymd.uix.screenmanager import MDScreenManager
-from kivy.lang import Builder
-from kivymd.theming import ThemeManager
+import flet as ft
+from views.routes import router
+from user_controls.app_bar import NavBar
+import utils
+import json
 
+def main(page: ft.Page):
 
-from components.screens import StartScreen, ModeScreen, CompareScreen
-from image_manager import ImageManager
-from utils import resource_path
+    # Set basic properties
+    page.theme_mode = "light"
+    page.theme = ft.Theme(color_scheme_seed = utils.IMAGE_ORANGE, color_scheme = ft.ColorScheme(primary=utils.IMAGE_ORANGE_DARK, secondary=utils.IMAGE_ORANGE_LIGHT, tertiary=utils.IMAGE_YELLOW))
+    #ft.colors.SECONDARY = utils.IMAGE_ORANGE_60
+    #color_scheme_seed = utils.IMAGE_ORANGE, 
 
-from os import listdir, environ
-environ["KIVY_NO_CONSOLELOG"] = "1"
+    #page.window_full_screen=True
+    page.padding = 0
 
-kv_path = resource_path("./design/")
-for file in listdir(kv_path): 
-    Builder.load_file(kv_path+file) 
+    # Load Translator
+    with open("assets/de.json", "rb") as f:
+        text = json.load(f)    
+    router.set_data("translator", text)
+    router.set_data("lng", "DE")
 
-# App Class
-class ExplainerApp(MDApp):
-    def build(self):
-        #Setting colors
-        self.theme_cls.theme_style = "Light"
-        self.theme_cls.primary_palette= "DeepOrange"
-        self.theme_cls.accent_palette = "Orange"
-        self.theme_cls.material_style = "M3"
+    # Add Appbar
+    page.appbar = NavBar(page)
+    
+    utils.CENTER_X = page.width * 0.5
+    utils.CENTER_Y = page.height * 0.5
+    
+    def page_resize(e):
+        utils.CENTER_X = page.width * 0.5
+        utils.CENTER_Y = page.height * 0.5
+        # page.snack_bar = ft.SnackBar(ft.Text(f'New page size => width: {page.width} ({utils.CENTER_X}), height: {page.height} ({utils.CENTER_Y})'))
+        # page.snack_bar.open = True
+        page.update()
 
-        self.font_color = (0.13,0.13,0.13)
-        self.button_size = "25sp"
-        self.label_size = "20sp"
+    
+    page.on_resize = page_resize
+    page.on_route_change = router.route_change
+    router.page = page
+    page.add(
+        ft.Stack([
+            ft.Image(src="assets/background.jpg"),
+            router.body
+        ])
+    )
 
-        # Instantiate image manager
-        image_manager = ImageManager()
+    page.go('/start')
 
-        #Need a ScreenManager to manage        
-        sm = MDScreenManager()
-        # sm.transition = SlideTransition()
-        # sm.transition.direction = "up"-
-        sm.add_widget(StartScreen(image_manager=image_manager, name='start'))
-        sm.add_widget(ModeScreen(image_manager=image_manager, name='mode'))
-        sm.add_widget(CompareScreen(image_manager=image_manager, name='compare'))
-        
-        return sm
-
-# Run App
-ExplainerApp().run()
+ft.app(target=main, assets_dir="assets")
