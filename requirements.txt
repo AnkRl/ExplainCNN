@@ -1,8 +1,7 @@
 captum==0.6.0
-Kivy==2.2.1
-Kivy_examples==2.2.1
-kivymd==1.2.0
 numpy==1.25.2
-Pillow==10.2.0
+Pillow==10.3.0
 torchvision==0.15.2
 matplotlib==3.7.2
+flet==0.22.0
+opencv-python==4.9.0.80
