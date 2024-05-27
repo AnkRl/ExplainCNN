@@ -14,7 +14,7 @@ def StartView(router):
     )
     title = ft.Text(
         translator["title"],
-        color= ft.colors.SECONDARY,#"white",
+        color= "white",
         theme_style=ft.TextThemeStyle.HEADLINE_SMALL
     )
     text = ft.Text(

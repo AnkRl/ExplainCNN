@@ -38,7 +38,8 @@ def ResultView(router):
                             width=max_size_image,
                             read_only=True,
                             border_color="white",
-                            color="white"
+                            color="white",
+                            label_style=ft.TextStyle(color="white")
                             ),
                         ft.Text(
                             translator[f"user_text"],
@@ -67,8 +68,9 @@ def ResultView(router):
                         label=translator["user_input"],
                         read_only=True,
                         width=max_size_image,
-                            border_color="white",
-                            color="white"
+                        border_color="white",
+                        color="white",
+                        label_style=ft.TextStyle(color="white")
                     ),
                     ft.Text(
                         translator[f"user_text"],

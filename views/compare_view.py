@@ -105,7 +105,7 @@ def CompareView(router):
         content=ft.GestureDetector(
             on_pan_start=pan_start,
             on_pan_update=pan_update,
-            drag_interval=10,
+            drag_interval=20,
         ),
     )
 
@@ -117,7 +117,7 @@ def CompareView(router):
                             width=max_size_image,
                             border_color="white",
                             color="white",
-                            label_style=ft.TextStyle(color=utils.IMAGE_ORANGE_DARK)
+                            label_style=ft.TextStyle(color="white")
                             ),
                         ft.Text(
                             translator[f"user_text"],
@@ -147,7 +147,8 @@ def CompareView(router):
                             read_only=True,
                             width=max_size_image,
                             border_color="white",
-                            color="white"
+                            color="white",
+                            label_style=ft.TextStyle(color="white")
                         ),
                         ft.Text(
                             translator[f"user_text"],

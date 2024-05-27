@@ -35,7 +35,7 @@ class Countdown(ft.UserControl):
     def update_timer(self):
         while self.show:
             _, frame = cap.read()
-            # frame = cv2.resize(frame,(400,400))
+            frame = cv2.resize(frame,(600,600))
             _, im_arr = cv2.imencode('.png', frame)
             self.im_b64 = base64.b64encode(im_arr)
             self.img.src_base64 = self.im_b64.decode("utf-8")
