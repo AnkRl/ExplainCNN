@@ -64,6 +64,8 @@ def CompareView(router):
     size_user = width*0.15
     size_ai = width*0.14
 
+    router.set_data("user_guess", "")
+
     def out_of_boundary(e: ft.DragUpdateEvent):
         size_x, size_y = max_size_image,max_size_image
         pos_x, pos_y = 0,0
