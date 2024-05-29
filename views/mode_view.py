@@ -39,32 +39,6 @@ def ModeView(router):
         "mode_camera": go_to_camera,
     }
 
-    card_list = [ft.Card(
-                    content=ft.Container(
-                        content=ft.Column(
-                            [
-                                ft.Icon(name=modes_icons[mode], color=ft.colors.PRIMARY, size=70),
-                                ft.Text(
-                                    translator[f"{mode}_title"],
-                                    theme_style=ft.TextThemeStyle.TITLE_SMALL
-                                ),
-                                ft.Text(
-                                    translator[f"{mode}_text"],
-                                    theme_style = ft.TextThemeStyle.BODY_MEDIUM
-                                ),
-                                ft.ElevatedButton(translator["button"], on_click=modes_handle_click[mode])
-                            ],
-                            # Params for content column
-                            alignment=ft.MainAxisAlignment.CENTER,
-                            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                        ),
-                        width = (width*0.9)/3,
-                        height = height*0.9,
-                        padding=10,
-                    ))
-        for mode in modes
-    ]
-
     card_list = [ft.GestureDetector(
                         content=ft.Container(
                             content=ft.Column(
