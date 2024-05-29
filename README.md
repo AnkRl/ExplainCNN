@@ -1,6 +1,9 @@
 # ExplainCNN
 Visually explain image classifications.
 
+Install using pip install -r requirements.txt
+⚠️ There is a problem with matplotlib and captum. Replace line 250 `plt_axis.grid(b=False)` in captums `_utils/visualization.py` with `plt_axis.grid(visible=False)`
+
 ## Libraries
 - `torchvision` with the pretrained EfficientNet for classification
 - `captum` for explaining and plotting the results
