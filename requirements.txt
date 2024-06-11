@@ -1,5 +1,5 @@
 captum==0.7.0
-numpy==1.25.2
+numpy==1.26.1
 Pillow==10.3.0
 torchvision==0.15.2
 matplotlib==3.7.2
