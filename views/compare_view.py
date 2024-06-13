@@ -59,7 +59,6 @@ def CompareView(router):
     # Calculate widths
     width, height = utils.get_size_main_container()    
     max_size_image = width/3
-    print(f"Max: {max_size_image}")
     half_box = width*0.5
     size_user = width*0.15
     size_ai = width*0.14
@@ -94,7 +93,7 @@ def CompareView(router):
         else:
             cp.shapes.append(
                 cv.Line(
-                    state.x, state.y, e.local_x, e.local_y, paint=ft.Paint(color = "#0000ff", stroke_width=3)
+                    state.x, state.y, e.local_x, e.local_y, paint=ft.Paint(color = "#0000ff", stroke_width=10)
                 ) 
             )
             cp.update()
@@ -110,28 +109,34 @@ def CompareView(router):
             drag_interval=20,
         ),
     )
-
+# 
     row_user = ft.Container(
                     ft.Column([
                         ft.TextField(
                             label=translator["user_input"],
-                            on_change = on_change_input,
                             width=max_size_image,
                             border_color="white",
                             color="white",
-                            label_style=ft.TextStyle(color="white")
-                            ),
+                            label_style=ft.TextStyle(color="white"),
+                            on_change = on_change_input,
+                        ),
                         ft.Text(
                             translator[f"user_text"],
                             theme_style = ft.TextThemeStyle.BODY_LARGE,
                             color="white"
-                            ),                    
-                        ft.Stack([                        
+                        ),
+                        ft.Stack([                      
                             ft.Image(
                                 src=router.get_data("img_org"),
                                 height = max_size_image,
                                 width = max_size_image,
                             ),
+                            ft.Image(
+                                src = "assets/brush.svg",
+                                width=size_user*0.3,
+                                top = 0,
+                                left= 4,
+                            ), 
                             cp
                         ])
                     ],
@@ -179,7 +184,7 @@ def CompareView(router):
                         blur=ft.Blur(2,2,ft.BlurTileMode.MIRROR),
                     )
     
-    content =ft.Row([
+    content = ft.Row([
                 # User
                 ft.Stack(
                     [ft.Image(
@@ -206,5 +211,4 @@ def CompareView(router):
                 alignment=ft.MainAxisAlignment.CENTER,
                 vertical_alignment=ft.CrossAxisAlignment.CENTER,
             )
-    
     return content

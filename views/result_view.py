@@ -30,6 +30,15 @@ def ResultView(router):
 
     cp = router.get_data("canvas")
 
+    repeat_button = ft.GestureDetector(
+        ft.Image(
+            src="assets/repeat.svg",
+            width=width*0.12,
+        ),
+        on_tap=goto,
+         bottom = 0, left = width*0.45
+    )
+
     row_user =  ft.Container(
                     ft.Column([
                         ft.TextField(
@@ -117,6 +126,11 @@ def ResultView(router):
                     alignment=ft.MainAxisAlignment.CENTER,
                     vertical_alignment=ft.CrossAxisAlignment.CENTER,
                 ),
-                ft.IconButton(icon = ft.icons.AUTORENEW_ROUNDED, icon_size= 85,on_click=goto, bottom = 0, left = width*0.47)])
-    
+                repeat_button
+                #ft.IconButton(icon = ft.icons.AUTORENEW_ROUNDED, icon_size= 85,on_click=goto, bottom = 0, left = width*0.47)
+            ],
+            # Params for content column
+                    # alignment=ft.MainAxisAlignment.CENTER,
+                    # horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            )
     return content
