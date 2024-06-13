@@ -16,7 +16,12 @@ def ResultView(router):
     ki_image = router.image_manager.ki_image
     curr_lng = router.get_data("lng")
     categories = de_categories() if curr_lng is "DE" else en_categories()
-    ai_guess = categories[router.image_manager.prediction]
+    
+    labels = []
+    for i in range(3):
+        guess = categories[router.image_manager.prediction[i]]
+        prob = round(router.image_manager.probs[i],1)
+        labels.append(f"{guess} ({prob}%)")
 
     # Calculate widths
     width, height = utils.get_size_main_container()    
@@ -39,22 +44,24 @@ def ResultView(router):
          bottom = 0, left = width*0.45
     )
 
+
     row_user =  ft.Container(
                     ft.Column([
-                        ft.TextField(
-                            label=translator["user_input"],
-                            value = router.get_data("user_guess"),
-                            width=max_size_image,
-                            read_only=True,
-                            border_color="white",
-                            color="white",
-                            label_style=ft.TextStyle(color="white")
-                            ),
-                        ft.Text(
-                            translator[f"user_text"],
-                            theme_style = ft.TextThemeStyle.BODY_LARGE,
-                            color="white"
-                        ),
+                        ft.Row(router.get_data("chips"), width= max_size_image),
+                        # ft.TextField(
+                        #     label=translator["user_input"],
+                        #     value = router.get_data("user_guess"),
+                        #     width=max_size_image,
+                        #     read_only=True,
+                        #     border_color="white",
+                        #     color="white",
+                        #     label_style=ft.TextStyle(color="white")
+                        #     ),
+                        # ft.Text(
+                        #     translator[f"user_text"],
+                        #     theme_style = ft.TextThemeStyle.BODY_LARGE,
+                        #     color="white"
+                        # ),
                         ft.Container(
                                 cp,
                                 width = max_size_image,
@@ -70,22 +77,31 @@ def ResultView(router):
                 alignment=ft.alignment.center_right,
             )
 
+    def dummy(e):
+        pass
+    ai_guess = []
+    ai_guess.append(
+        ft.Chip(
+                label=ft.Text(labels[-1]),
+                bgcolor=utils.IMAGE_YELLOW,
+                autofocus=True,
+                selected= True,
+                on_select=dummy
+            )
+    )
+    for a in labels[:2]:
+        ai_guess.append(
+            ft.Chip(
+                label=ft.Text(a),
+                bgcolor=utils.IMAGE_YELLOW,
+                autofocus=True,
+                selected= False,
+                on_select=dummy,
+            )
+        )
     row_ai = ft.Container(
                 ft.Column([
-                    ft.TextField(
-                        value = ai_guess, 
-                        label=translator["user_input"],
-                        read_only=True,
-                        width=max_size_image,
-                        border_color="white",
-                        color="white",
-                        label_style=ft.TextStyle(color="white")
-                    ),
-                    ft.Text(
-                        translator[f"user_text"],
-                        theme_style = ft.TextThemeStyle.BODY_LARGE,
-                        color="white"
-                    ),
+                    ft.Row(ai_guess, width= max_size_image),
                     ft.Image(
                         src_base64=ki_image ,
                         width = max_size_image,

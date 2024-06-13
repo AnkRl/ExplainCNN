@@ -23,7 +23,18 @@ def get_size_with_margin(width, height):
     ho = (CENTER_Y - (0.5 * h))*0.5
     return w,h, ve, ho
 
-
+def get_labels(router):
+    lng = router.get_data("lng")
+    match lng:
+            case "DE":
+                file = "assets/image_summary_DE.json"
+            case "EN" | _:
+                raise("Not implemented")
+    with open(file, "rb") as f:
+        text = json.load(f)
+    image_path = router.get_data("img_org").split('/')
+    return text[image_path[-1]]
+    
 # Section 1
 # title_1 = text["section_1"]["title"]
 # text_1 = text["section_1"]["text"]

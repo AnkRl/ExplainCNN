@@ -34,17 +34,23 @@ class EfficientNet():
         '''
         # Make Prediction
         predict = self.model(self.preprocessed_image).squeeze(0).softmax(0)
-        class_id = predict.argmax().item()        
+        class_id = predict.argmax().item()
         self.prediction = class_id
         #self.prediction = self.categories[class_id]
         #self.prediction = self.categories_eng[class_id]
-
         # Make images
         #TODO: ASYNC
         attribution = self._get_explanation(class_id, self.preprocessed_image)
         ki_image = self._get_attribution_image(self.preprocessed_image, attribution, self.original_image)
 
         return ki_image
+    
+    def get_predictions(self):
+        predict = self.model(self.preprocessed_image).squeeze(0).softmax(0)
+        idx = sorted(range(len(predict)), key = lambda sub: predict[sub])[-3:]
+        probs = predict[idx]*100
+
+        return idx, probs.tolist()
     
     def process_image(self, image_path:str):
         # Process the image

@@ -22,7 +22,7 @@ def main(page: ft.Page):
     router.set_data("lng", "DE")
 
     # Add Appbar
-    page.appbar = NavBar(page)
+    #page.appbar = NavBar(page)
     
     utils.CENTER_X = page.width * 0.5
     utils.CENTER_Y = page.height * 0.5

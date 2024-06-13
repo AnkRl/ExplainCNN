@@ -51,7 +51,10 @@ class ImageManager():
     def get_prediction(self):
         #TODO: Make async with asyncio (?)
         self.ki_image = self.im_2_b64(self.network.pass_image_to_net())
-        self.prediction = self.network.prediction
+        idx, probs = self.network.get_predictions()
+
+        self.prediction = idx
+        self.probs = probs
         
         return False
     
