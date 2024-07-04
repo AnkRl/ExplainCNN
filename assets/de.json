@@ -16,8 +16,7 @@
       "button": "Auswählen"
     },
     "compare_view": {
-      "user_input": "Was siehst du?",
-      "user_text": "Markiere was du siehst",
+      "user_text": "Dein Schnappschuss",
       "button": "Vergleiche mit KI"
     }
 

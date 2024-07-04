@@ -78,11 +78,8 @@ def CompareView(router):
     
     def go_to(e: ft.ControlEvent):
         router.set_data("canvas", cp)
-        router.set_data("chips", choose_cat)
+        router.set_data("chips", chip_list)
         e.page.go("/result")
-
-    def on_change_input (e: ft.ControlEvent):
-        router.set_data("user_guess", e.data)
 
     def pan_start(e: ft.DragStartEvent):
         state.x = e.local_x
@@ -104,9 +101,27 @@ def CompareView(router):
     def amenity_selected(e):
         for i,a in enumerate(amenities):   
             if a is not e.control.data:
-                choose_cat[i].selected = False
+                chip_list[i].selected = False
 
         e.page.update()
+    
+    def dummy():
+        pass
+
+    def get_chips(mock = False):        
+        chip_list = []
+        click_fun = dummy if mock else amenity_selected
+        for amenity in amenities:
+            chip_list.append(
+                ft.Chip(
+                    label=ft.Text(amenity),
+                    bgcolor=utils.IMAGE_YELLOW,
+                    autofocus=True,
+                    on_select=click_fun,
+                    data=amenity
+                )
+            )
+        return chip_list
     
     cp = cv.Canvas([],
         width=max_size_image,
@@ -119,34 +134,21 @@ def CompareView(router):
     )
 
     amenities = utils.get_labels(router)
-    choose_cat = []
-    for amenity in amenities:
-        choose_cat.append(
-            ft.Chip(
-                label=ft.Text(amenity),
-                bgcolor=utils.IMAGE_YELLOW,
-                autofocus=True,
-                on_select=amenity_selected,
-                data=amenity
-            )
-        )
-# 
+    if amenities is False:
+        chip_list = ft.Text(
+                            translator[f"user_text"],
+                            theme_style = ft.TextThemeStyle.BODY_LARGE,
+                            color="white"
+                        ),
+        mock_list = chip_list
+    else:
+        chip_list = get_chips()
+        mock_list = get_chips(mock = True)
+    
+    
     row_user = ft.Container(
-                    ft.Column([
-                        # ft.TextField(
-                        #     label=translator["user_input"],
-                        #     width=max_size_image,
-                        #     border_color="white",
-                        #     color="white",
-                        #     label_style=ft.TextStyle(color="white"),
-                        #     on_change = on_change_input,
-                        # ),                        
-                        ft.Row(choose_cat, width= max_size_image),
-                        # ft.Text(
-                        #     translator[f"user_text"],
-                        #     theme_style = ft.TextThemeStyle.BODY_LARGE,
-                        #     color="white"
-                        # ),
+                    ft.Column([                     
+                        ft.Row(chip_list, width= max_size_image),
                         ft.Stack([                      
                             ft.Image(
                                 src=router.get_data("img_org"),
@@ -169,37 +171,9 @@ def CompareView(router):
                 alignment=ft.alignment.center_right,
             )
     
-    am = utils.get_labels(router)
-    mock_cat = []
-    def dummy():
-        pass
-    for a in am:
-        mock_cat.append(
-            ft.Chip(
-                label=ft.Text(a),
-                bgcolor=utils.IMAGE_YELLOW,
-                autofocus=False,
-                on_select= dummy,
-            )
-        )
-
     row_ai = ft.Container(
                     ft.Column([
-                        ft.Row(mock_cat, width= max_size_image),
-                        #ft.Row(ai_cat, width= max_size_image),
-                        # ft.TextField(
-                        #     label=translator["user_input"],
-                        #     read_only=True,
-                        #     width=max_size_image,
-                        #     border_color="white",
-                        #     color="white",
-                        #     label_style=ft.TextStyle(color="white")
-                        # ),
-                        # ft.Text(
-                        #     translator[f"user_text"],
-                        #     theme_style = ft.TextThemeStyle.BODY_LARGE,
-                        #     color="white"
-                        # ),
+                        ft.Row(mock_list, width= max_size_image),
                         ft.Image(
                             src=router.get_data("img_org"),
                             height = max_size_image,

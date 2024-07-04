@@ -16,8 +16,7 @@
       "button": "Choose"
     },
     "compare_view": {
-      "user_input": "What do you see?",
-      "user_text": "Mark what you see",
+      "user_text": "Your picture",
       "button": "Compare with AI"
     }
 
