@@ -1,0 +1,57 @@
+{
+    "apple.jpg":[
+        "Apple",
+        "Pink Lady",
+        "Pear"
+    ],
+    "bulb.jpg":[
+        "Light Bulb",
+        "Goldfish",
+        "Fish"
+    ],
+    "bulb2.jpg":[
+        "Light Bulb",
+        "Goldfish",
+        "Fish"
+    ],
+    "hamster.jpg":[
+        "Rat",
+        "Hamster",
+        "Guinea Pig"
+    ],
+    "hamster2.jpg":[
+        "Rat",
+        "Hamster",
+        "Guinea Pig"
+    ],
+    "kuh.jpg":[
+        "Cow",
+        "Meadow",
+        "Holstein Cow"
+    ],
+    "kuh2.jpg":[
+        "Coast",
+        "Cow",
+        "Ox"
+    ],
+    "panda.jpg":[
+        "Giant Panda",
+        "Red Panda",
+        "Bamboo"
+    ],
+    "red_panda.jpg":[
+        "Giant Panda",
+        "Red Panda",
+        "Bamboo"
+    ],
+    "tomate.jpg":[
+        "Tomato",
+        "Cucumber",
+        "Bowl"
+    ],
+    "zitrone.jpg":[
+        "Lemon",
+        "Orange",
+        "Tree"
+    ]
+}

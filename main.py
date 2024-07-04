@@ -12,7 +12,7 @@ def main(page: ft.Page):
     #ft.colors.SECONDARY = utils.IMAGE_ORANGE_60
     #color_scheme_seed = utils.IMAGE_ORANGE, 
 
-    #page.window_full_screen=True
+    page.window_full_screen=True
     page.padding = 0
 
     # Load Translator
@@ -22,10 +22,7 @@ def main(page: ft.Page):
     router.set_data("lng", "DE")
 
     # Add Appbar
-    #page.appbar = NavBar(page)
-    
-    utils.CENTER_X = page.width * 0.5
-    utils.CENTER_Y = page.height * 0.5
+    page.appbar = NavBar(page)
     
     def page_resize(e):
         utils.CENTER_X = page.width * 0.5
@@ -38,6 +35,10 @@ def main(page: ft.Page):
     page.on_resize = page_resize
     page.on_route_change = router.route_change
     router.page = page
+    
+    utils.CENTER_X = page.width * 0.5
+    utils.CENTER_Y = page.height * 0.5
+
     page.add(
         ft.Stack([
             ft.Image(src="assets/background.jpg"),
@@ -46,5 +47,6 @@ def main(page: ft.Page):
     )
 
     page.go('/start')
+    page.update()
 
 ft.app(target=main, assets_dir="assets")

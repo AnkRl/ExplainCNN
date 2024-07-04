@@ -52,10 +52,7 @@ class ai_overlay(ft.UserControl):
 
 def CompareView(router):
     translator = router.get_data("translator")["compare_view"]
-    #router.image_manager.get_prediction()
-    #router.image_manager.ki_image.save("ki_image.png")
-    #ki_image = router.image_manager.ki_image
-
+    
     # Calculate widths
     width, height = utils.get_size_main_container()    
     max_size_image = width/3

@@ -25,10 +25,10 @@ def get_size_with_margin(width, height):
 
 def get_labels(router):
     lng = router.get_data("lng")
-    if lng is "DE":
+    if lng == "DE":
         file = "assets/image_summary_DE.json"
     else:
-        raise("Not implemented")
+        file = "assets/image_summary_EN.json"
     
     with open(file, "rb") as f:
         text = json.load(f)
