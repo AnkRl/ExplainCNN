@@ -4,7 +4,14 @@
       "redo": "New",
       "lang": "Language"
     },
+
+    "choose_image_view": { 
+      "title": "Choose a picture or take one yourself"
+    },
+
     "start_view": {
+      "mode_explain_title": "Explainable AI",
+      "mode_attack_title": "Secure AI",
       "title": "You vs AI",
       "text": "This Explainer helps us to understand what the AI sees and why it is sometimes wrong",
       "button": "Let's go!"

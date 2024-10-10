@@ -37,7 +37,8 @@ class Router:
                                     border_radius= 18,
                                     #border= ft.border.all(1, "#44f4f4f4"),
                                     alignment=ft.alignment.center,
-                                    blur= ft.Blur(10,12,ft.BlurTileMode.MIRROR)
+                                    bgcolor="#EB6513"
+                                    #blur= ft.Blur(10,12,ft.BlurTileMode.MIRROR)
                                 ),
                                 margin= ft.margin.symmetric(horizontal=horizontal, vertical=vertical),
                                 alignment=ft.alignment.center,

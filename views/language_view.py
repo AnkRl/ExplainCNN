@@ -29,13 +29,13 @@ def LanguageView(router):
                 "Deutsch",
                 data="DE",
                 on_click= click,
-                icon = "check" if curr_lng is "DE" else None,
+                icon = "check" if curr_lng == "DE" else None,
                 ),
             ft.TextButton(
                 "English",
                 data="EN",
                 on_click= click,
-                icon = "check" if curr_lng is "EN" else None,
+                icon = "check" if curr_lng == "EN" else None,
                 ),
             ft.Text("Illustrations by Storyset.com", color="white")
         ],

@@ -1,22 +1,21 @@
 from views.Router import Router
 from views.start_view import StartView
-from views.mode_view import ModeView
 from views.compare_view import CompareView
-from views.gallery_view import GalleryView
 from views.result_view import ResultView
 from views.camera_view import CameraView
 from views.language_view import LanguageView
+from views.choose_image_view import ChooseImageView
+from views.attack_view import AttackView
 
 router = Router()
 
 router.routes = {
   "/0": StartView,
-  "/1": ModeView,
-  "/2": LanguageView,
-  "/gallery": GalleryView,
+  "/1": LanguageView,
   "/start": StartView,
-  "/mode": ModeView,
+  "/choose_image": ChooseImageView,
   "/compare": CompareView,
   "/result": ResultView,
-  "/camera": CameraView
+  "/camera": CameraView,
+  "/attack": AttackView
 }

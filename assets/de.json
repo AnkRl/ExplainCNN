@@ -4,7 +4,14 @@
       "redo": "Neu",
       "lang": "Sprache"
     },
+
+    "choose_image_view": { 
+      "title": "Wähle ein Bild oder nimm selber eines auf"
+    },
+    
     "start_view": {
+      "mode_explain_title": "Erklärbare KI",
+      "mode_attack_title": "Sichere KI",
       "title": "Du vs KI",
       "text": "Woran erkennst du das Objekt? Und vor allem, woran erkennt die KI das Objekt?",
       "button": "Los geht's!"

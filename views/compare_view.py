@@ -2,7 +2,6 @@
 import flet as ft
 import flet.canvas as cv
 import utils
-import time
 
 class State:
     x: float
@@ -17,32 +16,13 @@ class ai_overlay(ft.UserControl):
         self.go_to = go_to
         self.translator = router.get_data("translator")["compare_view"]
 
-    def did_mount(self):
-        self.update_timer()
-        self.button.disabled = False
-        self.update()
-
-    def update_timer(self):
-        for i in range(0, 101):
-            self.progress.value = i * 0.01
-            time.sleep(0.05)
-            self.update()
-        
-
     def build(self):
         self.button =ft.ElevatedButton(
                         self.translator["button"], 
-                        disabled = True, 
+                        disabled = False, 
                         on_click=self.go_to)
-        
-        self.progress = ft.ProgressRing(
-            width=50, 
-            height=50, 
-            stroke_width = 2,
-            value = 0.1)
-        
+   
         content = ft.Column([
-                            self.progress,
                             self.button
                         ],
                         alignment=ft.MainAxisAlignment.CENTER,
@@ -59,6 +39,10 @@ def CompareView(router):
     half_box = width*0.5
     size_user = width*0.15
     size_ai = width*0.14
+    dlg = router.get_data("loading")
+    router.image_manager.get_explanation()
+    dlg.open = False
+    router.page.update()
 
     router.set_data("user_guess", "")
 
@@ -152,12 +136,12 @@ def CompareView(router):
                                 height = max_size_image,
                                 width = max_size_image,
                             ),
-                            ft.Image(
-                                src = "assets/brush.svg",
-                                width=size_user*0.3,
-                                top = 0,
-                                left= 4,
-                            ), 
+                            # ft.Image(
+                            #     src = "assets/pen.gif",
+                            #     width=size_user*0.4,
+                            #     top = 0,
+                            #     left= 4,
+                            # ), 
                             cp
                         ])
                     ],
@@ -197,7 +181,7 @@ def CompareView(router):
                 # User
                 ft.Stack(
                     [ft.Image(
-                        src = "assets/user.svg",
+                        src = "assets/pen.gif",
                         width = size_user,
                         top=0,
                         left = 10),

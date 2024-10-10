@@ -11,8 +11,6 @@ state = State()
 
 def ResultView(router):
     translator = router.get_data("translator")["compare_view"]
-    router.image_manager.get_prediction()
-    #router.image_manager.ki_image.save("ki_image.png")
     ki_image = router.image_manager.ki_image
     curr_lng = router.get_data("lng")
     categories = de_categories() if curr_lng is "DE" else en_categories()
@@ -31,37 +29,13 @@ def ResultView(router):
     size_ai = width*0.14
     
     def goto(e):
-        e.page.go("/mode")
+        e.page.go("/start")
 
     cp = router.get_data("canvas")
-
-    repeat_button = ft.GestureDetector(
-        ft.Image(
-            src="assets/repeat.svg",
-            width=width*0.12,
-        ),
-        on_tap=goto,
-         bottom = 0, left = width*0.45
-    )
-
 
     row_user =  ft.Container(
                     ft.Column([
                         ft.Row(router.get_data("chips"), width= max_size_image),
-                        # ft.TextField(
-                        #     label=translator["user_input"],
-                        #     value = router.get_data("user_guess"),
-                        #     width=max_size_image,
-                        #     read_only=True,
-                        #     border_color="white",
-                        #     color="white",
-                        #     label_style=ft.TextStyle(color="white")
-                        #     ),
-                        # ft.Text(
-                        #     translator[f"user_text"],
-                        #     theme_style = ft.TextThemeStyle.BODY_LARGE,
-                        #     color="white"
-                        # ),
                         ft.Container(
                                 cp,
                                 width = max_size_image,
@@ -142,11 +116,13 @@ def ResultView(router):
                     alignment=ft.MainAxisAlignment.CENTER,
                     vertical_alignment=ft.CrossAxisAlignment.CENTER,
                 ),
-                repeat_button
-                #ft.IconButton(icon = ft.icons.AUTORENEW_ROUNDED, icon_size= 85,on_click=goto, bottom = 0, left = width*0.47)
+                ft.IconButton(
+            	    icon = ft.icons.CACHED_ROUNDED, 
+                    icon_size= 70,
+                    on_click=goto,
+                    style=ft.ButtonStyle(color={"": ft.colors.SECONDARY}),
+                    bottom = 0, 
+                    left = width*0.47)
             ],
-            # Params for content column
-                    # alignment=ft.MainAxisAlignment.CENTER,
-                    # horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             )
     return content

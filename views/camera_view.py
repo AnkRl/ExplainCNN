@@ -3,8 +3,10 @@ import cv2
 import time
 import os
 import base64
+import utils
 
 cap = cv2.VideoCapture(0)
+width, height = utils.get_size(0.9,0.9)
 
 class Countdown(ft.UserControl):
     def __init__(self, router):
@@ -28,7 +30,29 @@ class Countdown(ft.UserControl):
                 
         self.router.set_data("img_org", path)
         self.router.image_manager.set_image(path)
-        e.page.go("/compare")
+        flag = self.router.get_data("flag")
+        dlg = ft.AlertDialog(content=
+                                ft.Container(
+                                        content=ft.Image(src="assets/loading.svg",
+                                                    width=(width*0.9)/3),
+                                        width= width,
+                                        height= height,
+                                        border_radius= 18,
+                                        #border= ft.border.all(1, "#44f4f4f4"),
+                                        alignment=ft.alignment.center,
+                                        blur= ft.Blur(10,12,ft.BlurTileMode.MIRROR)
+                                    ),
+                                modal = True,
+                                bgcolor=ft.colors.with_opacity(0, ft.colors.PRIMARY)
+                                )
+        self.router.set_data("loading", dlg)
+        dlg = self.router.get_data("loading")
+        e.page.open(dlg)
+
+        if flag == "EXPLAIN":
+            e.page.go("/compare")
+        else:
+            e.page.go("/attack")
         self.show = False
         
 
